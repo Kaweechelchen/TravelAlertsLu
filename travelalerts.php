@@ -10,56 +10,17 @@
             '',
             $travelAlert[ 'description' ]
         );
+        $title = $travelAlert[ 'title' ];
 
         $lines = explode(
             "\n",
             $description
         );
 
-        $stringsToRemove = array(
-            'Due to railway-works, ',
-            'Due to railway works on line , ',
-            'Due to railway works on ',
+        if ( ! strpos( strtolower( $title ), 'work:' ) ) {
 
-        );
-
-        // removing strings from the array just before
-        $information = str_replace(
-            $stringsToRemove,
-            '',
-            $lines[ 2 ]
-        );
-
-        $dateTime = $lines[ 1 ];
-
-        date_default_timezone_set( "Europe/London" );
-
-        $utsStart = strtotime( substr( $dateTime, 0, 15 ) );
-
-        switch ( strlen( $lines[ 1 ] ) ) {
-
-            case 24:    $utsEnd = strtotime( substr( $dateTime, 0, 10 ) . ' ' . substr( $dateTime, 19, 5 ) );
-                        $date = date( "j.n G\h", $utsStart ) . '-' . date( "G\h", $utsEnd );
-                        break;
-
-            case 29:    $utsEnd = strtotime( substr( $dateTime, 19, 10 ) );
-                        $date = date( "j.n", $utsStart ) . '-' . date( "j.n", $utsEnd );
-                        break;
-
-            case 35:    $utsEnd = strtotime( substr( $dateTime, 19, 10 ) . ' ' . substr( $dateTime, 30, 5 ) );
-                        $date = date( "j.n G\h", $utsStart ) . '-' . date( "j.n G\h", $utsEnd );
-                        break;
-
-            default:    echo "no";
-                        break;
+            echo substr( $lines[ 2 ], 0, 135) . ' #cfl' . PHP_EOL;
 
         }
-
-        $tweet =substr(
-            $date . ' ' . $information,
-            0,
-            135
-        ) . ' #cfl';
-        echo $tweet.PHP_EOL;
 
     }
