@@ -17,9 +17,22 @@
             $description
         );
 
+        $file = 'knownProblems.txt';
+
         if ( ! strpos( strtolower( $title ), 'work:' ) ) {
 
-            echo substr( $lines[ 2 ], 0, 135) . ' #cfl' . PHP_EOL;
+            $message = substr( $lines[ 2 ], 0, 135) . ' #cfl';
+
+            if( ! exec('grep '.escapeshellarg( $lines[ 1 ] . ' ' . $message ). ' ./'.$file)) {
+
+                echo $message . PHP_EOL;
+                file_put_contents(
+                    $file,
+                    $lines[ 1 ] . ' ' . $message.PHP_EOL,
+                    FILE_APPEND | LOCK_EX
+                );
+
+            }
 
         }
 
