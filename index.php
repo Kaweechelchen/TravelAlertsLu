@@ -61,15 +61,17 @@
 
             }
 
+            file_put_contents( 'allOk.txt', '0' );
+
             $count++;
 
         }
 
     }
 
-    if ( $count == 0 ) {
+    if ( $count == 0 && ( file_get_contents('allOk.txt') == 0 ) ) {
 
-        $message = 'A good service has now resumed on all lines. If not, please give us a heads up';
+        $message = 'A good service has now resumed on all lines. If we are missing something, please give us a heads up';
 
         /** POST fields required by the URL above. See relevant docs as above **/
         $postfields = array(
@@ -80,10 +82,6 @@
                      ->setPostfields( $postfields )
                      ->performRequest();
 
-        file_put_contents(
-            $file,
-            $message.PHP_EOL,
-            FILE_APPEND | LOCK_EX
-        );
+        file_put_contents( 'allOk.txt', '1' );
 
     }
