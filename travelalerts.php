@@ -1,7 +1,10 @@
 <?php
 
-    $xml    = simplexml_load_file( 'https://getcontents.herokuapp.com/?url=http%3A%2F%2Fmobile.cfl.lu%2Fbin%2Fhelp.exe%2Fenl%3Ftpl%3Drss_feed_global' );
+    $xml = simplexml_load_file( 'https://getcontents.herokuapp.com/?url=http%3A%2F%2Fmobile.cfl.lu%2Fbin%2Fhelp.exe%2Fenl%3Ftpl%3Drss_feed_global' );
+
     $data   = json_decode(json_encode( $xml ), true);
+
+    $count = 0;
 
     foreach( $data[ 'channel' ][ 'item' ] as $travelAlert ) {
 
@@ -34,6 +37,12 @@
 
             }
 
+            $count++;
+
         }
 
+    }
+
+    if ( $count == 0 ) {
+        echo "A good service has now resumed on all the linees. If not, please give us a heads up #cfl";
     }
