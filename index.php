@@ -69,7 +69,7 @@
 
     if ( $count == 0 ) {
 
-        $message = 'A good service has now resumed on all linees. If not, please give us a heads up';
+        $message = 'A good service has now resumed on all lines. If not, please give us a heads up';
 
         /** POST fields required by the URL above. See relevant docs as above **/
         $postfields = array(
@@ -79,5 +79,11 @@
         echo $twitter->buildOauth( $url, $requestMethod )
                      ->setPostfields( $postfields )
                      ->performRequest();
+
+        file_put_contents(
+            $file,
+            $message.PHP_EOL,
+            FILE_APPEND | LOCK_EX
+        );
 
     }
