@@ -71,7 +71,9 @@
 
     if ( $count == 0 && ( file_get_contents('allOk.txt') == 0 ) ) {
 
-        $message = 'A good service has now resumed on all lines. If we are missing something, please give us a heads up';
+        date_default_timezone_set( 'Europe/Luxembourg' );
+
+        $message = 'A good service has now resumed on all lines at ' . date( "G:i" ) . '. If we are missing something, please give us a heads up';
 
         /** POST fields required by the URL above. See relevant docs as above **/
         $postfields = array(
