@@ -73,7 +73,7 @@
 
         date_default_timezone_set( 'Europe/Luxembourg' );
 
-        $message = 'A good service has now resumed on all lines at ' . date( "G:i" ) . '. If we are missing something, please give us a heads up';
+        $message = 'A good service has been resumed on all lines at ' . date( "G:i" ) . '. If we are missing something, please give us a heads up';
 
         /** POST fields required by the URL above. See relevant docs as above **/
         $postfields = array(
