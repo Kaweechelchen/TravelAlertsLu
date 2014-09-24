@@ -117,7 +117,7 @@
             'Just letting you know that everything has been up and running from ' . date( "G:i" ) . ' on ;) We <3 updates, send us yours. Have a good day',
             'You might like to hear that all the issues have been solved at ' . date( "G:i" ) . '. Help us being more accurate by sending us updates',
             'As far as we know, from ' . date( "G:i" ) . ' on, trains should get you to your desired destination on time. Tell us if that\'s not the case',
-            'Once apon a time all trains were operating at full speed... OMG! thats\'s what you should be experienceinging from ' . date( "G:i" ) . ' on!',
+            'Once upon a time all trains were operating at full speed... OMG! thats\'s what you should be experiencing from ' . date( "G:i" ) . ' on!',
             'Customer service update at ' . date( "G:i" ) . ': All trains should arrive on time =] oh and btw: if you like this service, please tell your friends ;)'
 
         );
