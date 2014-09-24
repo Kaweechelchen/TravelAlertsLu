@@ -100,9 +100,9 @@
 
                 setStatus( 0 );
 
-                $count++;
-
             }
+
+            $count++;
 
         }
 
