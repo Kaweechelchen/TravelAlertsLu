@@ -77,24 +77,73 @@
         // storing the timestamp in a variable
         $dateTime = $lines[ 1 ];
 
+        $wordsToHashTag = array (
+
+            'cancelled', 'train', 'luxembourg', 'bus', 'strike', 'esch', 'delay', 'delays', 'esch/alzette', 'breakdown', 'longwy', 'metz', 'obstacle', 'technical'
+
+        );
+
         if ( ! strpos( strtolower( $title ), 'work:' ) ) {
 
-            $message = substr( $lines[ 2 ], 0, 140);
+            $words = explode( ' ', $lines[ 2 ] );
+            $tweet = '';
+            unset( $tweets );
 
-            if( notYetPublished( $dateTime . ' ' . $message ) ) {
+            foreach ($words as $word) {
 
-                /** POST fields required by the URL above. See relevant docs as above **/
-                $postfields = array(
-                        'status' => $message
+                if ( $word != '' ) {
+
+                    if ( in_array( strtolower( $word ), $wordsToHashTag ) ) {
+
+                        $word = '#'.$word;
+
+                    }
+
+                    if ( strlen( $tweet ) + strlen( $word ) > 133 ) {
+
+                        $tweets[] = $tweet;
+                        $tweet = '';
+
+                    }
+
+                    if ( strlen( $tweet ) != 0 ) {
+
+                        $tweet .= ' ';
+
+                    }
+
+                    $tweet .= $word;
+
+                }
+
+            }
+
+            $tweets[] = $tweet;
+
+            foreach ($tweets as $key => $tweet) {
+
+                $tweets[ $key ] = $tweet . ' (' . ( $key + 1 ) . '/' . sizeof( $tweets ) . ')';
+
+            }
+
+            if( notYetPublished( $dateTime . ' ' . $lines[ 2 ] ) ) {
+
+                foreach ($tweets as $tweet) {
+
+                    /** POST fields required by the URL above. See relevant docs as above **/
+                    $postfields = array(
+                        'status' => $tweet
                     );
 
-                echo $twitter->buildOauth( $url, $requestMethod )
-                             ->setPostfields( $postfields )
-                             ->performRequest();
+                    echo $twitter->buildOauth( $url, $requestMethod )
+                                 ->setPostfields( $postfields )
+                                 ->performRequest();
+
+                }
 
                 file_put_contents(
                     $knownTextsFile,
-                    $lines[ 1 ] . ' ' . $message.PHP_EOL,
+                    $dateTime . ' ' . $lines[ 2 ].PHP_EOL,
                     FILE_APPEND | LOCK_EX
                 );
 
