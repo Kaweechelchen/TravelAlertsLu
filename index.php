@@ -79,7 +79,7 @@
 
         $wordsToHashTag = array (
 
-            'cancelled', 'train', 'luxembourg', 'bus', 'strike', 'esch', 'delay', 'delays', 'esch/alzette', 'breakdown', 'longwy', 'metz', 'obstacle', 'technical'
+            'cancelled', 'train', 'luxembourg', 'bus', 'strike', 'esch', 'delay', 'delays', 'esch/alzette', 'breakdown', 'longwy', 'metz', 'obstacle', 'technical', 'mersch', 'ettelbruck', 'bettembourg'
 
         );
 
