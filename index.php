@@ -120,9 +120,13 @@
 
             $tweets[] = $tweet;
 
-            foreach ($tweets as $key => $tweet) {
+            if ( sizeof( $tweets) > 1 ) {
 
-                $tweets[ $key ] = $tweet . ' (' . ( $key + 1 ) . '/' . sizeof( $tweets ) . ')';
+                foreach ($tweets as $key => $tweet) {
+
+                    $tweets[ $key ] = $tweet . ' (' . ( $key + 1 ) . '/' . sizeof( $tweets ) . ')';
+
+                }
 
             }
 
