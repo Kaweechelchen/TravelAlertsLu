@@ -86,9 +86,11 @@
 
           }
 
-        }
+          return true;
 
-        return true;
+        } else {
+          return false;
+        }
 
     }
 
