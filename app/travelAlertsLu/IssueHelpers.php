@@ -20,68 +20,11 @@
 
           foreach ( $CFLXMLData[ 'channel' ][ 'item' ] as $issue ) {
 
-            if ( ! self::issueExisting( $app, $issue ) ) {
-
-              $issueId = self::insertIssue( $app, $issue );
-
-              $descriptionPattern = '/<br\ \/><br\ \/>\n(.*?) <br/s';
-
-              preg_match(
-                $descriptionPattern,
-                $issue[ 'description' ],
-                $descriptionMatches
-              );
-
-              $issue[ 'description' ] = $descriptionMatches[1];
-
-              $description = $issue[ 'description' ];
-
-              $words = explode( ' ', $description );
-
-              $tweet = '';
-              unset( $tweets );
-
-              foreach ($words as $word) {
-
-                if ( $word != '' ) {
-
-                  if ( in_array( strtolower( $word ), $app[ 'wordsToTag' ] ) ) {
-                    $word = '#'.$word;
-                  }
-
-                  if ( strlen( $tweet ) + strlen( $word ) > 133 ) {
-                    $tweets[] = $tweet;
-                    $tweet = '';
-                  }
-
-                  if ( strlen( $tweet ) != 0 ) {
-                    $tweet .= ' ';
-                  }
-
-                  $tweet .= $word;
-
-                }
-
-              }
-
-              $tweets[] = $tweet;
-
-              foreach ( $tweets as $key => $tweet) {
-
-                if ( sizeof( $tweets ) > 1 ) {
-                  $tweet    = $tweet . ' (' . ( $key + 1 ) . '/' . sizeof( $tweets ) . ')';
-                }
-
-                if ( $key == 0 ) {
-                  $replyTo = self::lastRelatedTweetId( $app, $issue );
-                } else {
-                  $replyTo = $tweetId;
-                }
-
-                $tweetId  = self::tweet( $app, $tweet, $replyTo );
-                self::saveTweet( $app, $tweet, $issue[ 'guid' ], $tweetId, $issueId );
-              }
-
+            if ( is_array( $issue ) ) {
+              self::handleIssue( $app, $issue );
+            } else {
+              self::handleIssue( $app, $CFLXMLData[ 'channel' ][ 'item' ] );
+              break;
             }
 
           }
@@ -91,6 +34,78 @@
         } else {
           return false;
         }
+
+    }
+
+    static public function handleIssue( $app, $issue ) {
+
+      if ( ! self::issueExisting( $app, $issue ) ) {
+
+        $issueId = self::insertIssue( $app, $issue );
+
+        $descriptionPattern = '/<br\ \/><br\ \/>\n(.*?) <br/s';
+
+        preg_match(
+          $descriptionPattern,
+          $issue[ 'description' ],
+          $descriptionMatches
+        );
+
+        $issue[ 'description' ] = $descriptionMatches[1];
+
+        $description = $issue[ 'description' ];
+
+        $words = explode( ' ', $description );
+
+        $tweet = '';
+        unset( $tweets );
+
+        foreach ($words as $word) {
+
+          if ( $word != '' ) {
+
+            if ( in_array( strtolower( $word ), $app[ 'wordsToTag' ] ) ) {
+              $word = '#'.$word;
+            }
+
+            if ( strlen( $tweet ) + strlen( $word ) > 133 ) {
+              $tweets[] = $tweet;
+              $tweet = '';
+            }
+
+            if ( strlen( $tweet ) != 0 ) {
+              $tweet .= ' ';
+            }
+
+            $tweet .= $word;
+
+          }
+
+        }
+
+        $tweets[] = $tweet;
+
+        foreach ( $tweets as $key => $tweet) {
+
+          if ( sizeof( $tweets ) > 1 ) {
+            $tweet    = $tweet . ' (' . ( $key + 1 ) . '/' . sizeof( $tweets ) . ')';
+          }
+
+          if ( $key == 0 ) {
+            $replyTo = self::lastRelatedTweetId( $app, $issue );
+          } else {
+            $replyTo = $tweetId;
+          }
+
+          $tweetId  = self::tweet( $app, $tweet, $replyTo );
+
+          if ( $tweetId ){
+            self::saveTweet( $app, $tweet, $issue[ 'guid' ], $tweetId, $issueId );
+          }
+
+        }
+
+      }
 
     }
 
@@ -190,7 +205,11 @@
                  ->performRequest()
       , true);
 
-      return $twitterResult[ 'id' ];
+      if ( array_key_exists( 'id', $twitterResult ) ) {
+        return $twitterResult[ 'id' ];
+      } else {
+        return false;
+      }
 
     }
 
