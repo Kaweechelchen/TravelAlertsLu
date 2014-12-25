@@ -68,8 +68,6 @@
 
             $tweets[] = $tweet;
 
-
-
             foreach ( $tweets as $key => $tweet) {
 
               if ( sizeof( $tweets ) > 1 ) {
