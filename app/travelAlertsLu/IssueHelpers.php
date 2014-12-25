@@ -18,70 +18,74 @@
 
         echo '<pre>';
 
-        foreach ( $CFLXMLData[ 'channel' ][ 'item' ] as $issue ) {
+        if ( array_key_exists( 'item', $CFLXMLData[ 'channel' ] ) ) {
 
-          var_dump($issue);
+          foreach ( $CFLXMLData[ 'channel' ][ 'item' ] as $issue ) {
 
-          if ( ! self::issueExisting( $app, $issue ) ) {
+            var_dump($issue);
 
-            $issueId = self::insertIssue( $app, $issue );
+            if ( ! self::issueExisting( $app, $issue ) ) {
 
-            $descriptionPattern = '/<br\ \/><br\ \/>\n(.*?) <br/s';
+              $issueId = self::insertIssue( $app, $issue );
 
-            preg_match(
-              $descriptionPattern,
-              $issue[ 'description' ],
-              $descriptionMatches
-            );
+              $descriptionPattern = '/<br\ \/><br\ \/>\n(.*?) <br/s';
 
-            $issue[ 'description' ] = $descriptionMatches[1];
+              preg_match(
+                $descriptionPattern,
+                $issue[ 'description' ],
+                $descriptionMatches
+              );
 
-            $description = $issue[ 'description' ];
+              $issue[ 'description' ] = $descriptionMatches[1];
 
-            $words = explode( ' ', $description );
+              $description = $issue[ 'description' ];
 
-            $tweet = '';
-            unset( $tweets );
+              $words = explode( ' ', $description );
 
-            foreach ($words as $word) {
+              $tweet = '';
+              unset( $tweets );
 
-              if ( $word != '' ) {
+              foreach ($words as $word) {
 
-                if ( in_array( strtolower( $word ), $app[ 'wordsToTag' ] ) ) {
-                  $word = '#'.$word;
+                if ( $word != '' ) {
+
+                  if ( in_array( strtolower( $word ), $app[ 'wordsToTag' ] ) ) {
+                    $word = '#'.$word;
+                  }
+
+                  if ( strlen( $tweet ) + strlen( $word ) > 133 ) {
+                    $tweets[] = $tweet;
+                    $tweet = '';
+                  }
+
+                  if ( strlen( $tweet ) != 0 ) {
+                    $tweet .= ' ';
+                  }
+
+                  $tweet .= $word;
+
                 }
-
-                if ( strlen( $tweet ) + strlen( $word ) > 133 ) {
-                  $tweets[] = $tweet;
-                  $tweet = '';
-                }
-
-                if ( strlen( $tweet ) != 0 ) {
-                  $tweet .= ' ';
-                }
-
-                $tweet .= $word;
 
               }
 
-            }
+              $tweets[] = $tweet;
 
-            $tweets[] = $tweet;
+              foreach ( $tweets as $key => $tweet) {
 
-            foreach ( $tweets as $key => $tweet) {
+                if ( sizeof( $tweets ) > 1 ) {
+                  $tweet    = $tweet . ' (' . ( $key + 1 ) . '/' . sizeof( $tweets ) . ')';
+                }
 
-              if ( sizeof( $tweets ) > 1 ) {
-                $tweet    = $tweet . ' (' . ( $key + 1 ) . '/' . sizeof( $tweets ) . ')';
+                if ( $key != 0 ) {
+                  $replyTo = $tweetId;
+                } else {
+                  $replyTo = 0;
+                }
+
+                $tweetId  = self::tweet( $app, $tweet, $replyTo );
+                self::saveTweet( $app, $tweet, $issue[ 'guid' ], $tweetId, $issueId );
               }
 
-              if ( $key != 0 ) {
-                $replyTo = $tweetId;
-              } else {
-                $replyTo = 0;
-              }
-
-              $tweetId  = self::tweet( $app, $tweet, $replyTo );
-              self::saveTweet( $app, $tweet, $issue[ 'guid' ], $tweetId, $issueId );
             }
 
           }
