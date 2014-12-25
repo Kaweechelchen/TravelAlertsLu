@@ -16,13 +16,9 @@
             true
         );
 
-        echo '<pre>';
-
         if ( array_key_exists( 'item', $CFLXMLData[ 'channel' ] ) ) {
 
           foreach ( $CFLXMLData[ 'channel' ][ 'item' ] as $issue ) {
-
-            var_dump($issue);
 
             if ( ! self::issueExisting( $app, $issue ) ) {
 
@@ -76,10 +72,10 @@
                   $tweet    = $tweet . ' (' . ( $key + 1 ) . '/' . sizeof( $tweets ) . ')';
                 }
 
-                if ( $key != 0 ) {
-                  $replyTo = $tweetId;
+                if ( $key == 0 ) {
+                  $replyTo = self::lastRelatedTweetId( $app, $issue );
                 } else {
-                  $replyTo = 0;
+                  $replyTo = $tweetId;
                 }
 
                 $tweetId  = self::tweet( $app, $tweet, $replyTo );
@@ -143,26 +139,26 @@
 
     }
 
-    static public function lastRelatedIssue( $app, $issue ) {
+    static public function lastRelatedTweetId( $app, $issue ) {
 
       if ( empty( $issue ) ) {
         return false;
       }
 
-      $idQuery = 'SELECT id
-        FROM      issues
-        AND       guid   = ?
+      $tweetIdQuery = 'SELECT tweetId
+        FROM      tweets
+        WHERE     guid   = ?
         ORDER BY  id     DESC
         LIMIT     1';
 
-      $issueId = $app[ 'db' ]->fetchColumn(
-        $idUQery,
+      $tweetId = $app[ 'db' ]->fetchColumn(
+        $tweetIdQuery,
         array(
           $issue[ 'guid' ]
         )
       );
 
-      return $issueId;
+      return $tweetId;
 
     }
 
