@@ -1,0 +1,13 @@
+{
+    "require": {
+        "silex/silex": "~1.1",
+        "igorw/config-service-provider": "~1.2",
+        "twig/twig": ">=1.8,<2.0-dev",
+        "doctrine/dbal" : "~2.4"
+    },
+    "autoload": {
+        "psr-0": {
+            "travelAlertsLu": "app/"
+         }
+    }
+}

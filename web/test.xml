@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+<channel>
+<title>CFL Traffic Infos</title>
+<description>All messages</description>
+<link>http://www.cfl.lu</link>
+<language>en-gb</language>
+<copyright>&#169; 2014 CFL</copyright>
+<pubDate>Tue, 23 Dec 2014 09:23:00 +0200</pubDate>
+<lastBuildDate>Tue, 23 Dec 2014 09:23:00 +0200</lastBuildDate>
+<image>
+<title>CFL Traffic Infos</title>
+<link>http://www.cfl.lu</link>
+<url>http://m.cfl.lu/hafas-res/img/ua_xhtml/logo_cfl.gif</url>
+</image>
+<item>
+<title>Operational problems - Delay of train RE 5111</title>
+<description>
+<![CDATA[
+23.12.2014 08:35 - 23:59<br /><br />
+Due to operational problems in Luxembourg, WHOOOOOOOTbf, scheduled departure 08:31 in Luxembourg) has an expected delay of 10-15 minutes in the departure station. <br />
+]]>
+</description>
+<pubDate>Tue, 23 Dec 2014 08:40:55 +0100</pubDate>
+<guid isPermaLink="false">cfl_20446</guid>
+</item>
+<item>
+<title>Signalling problems - Trains delayed</title>
+<description>
+<![CDATA[
+23.12.2014 09:16 - 23:59<br /><br />
+Due to signalling problems in Dippach, a dewdedwdlay of 10-15 minutes is expected on all trains. <br />
+]]>
+</description>
+<pubDate>Tue, 23 Dec 2014 09:17:19 +0100</pubDate>
+<guid isPermaLink="false">cfl_20449</guid>
+</item>
+</channel>
+</rss>

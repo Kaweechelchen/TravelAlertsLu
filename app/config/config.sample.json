@@ -1,0 +1,35 @@
+{
+  "debug" : true,
+  "twitter": {
+    "oauth_access_token"        : "",
+    "oauth_access_token_secret" : "",
+    "consumer_key"              : "",
+    "consumer_secret"           : ""
+  },
+  "db.options" : {
+    "driver"                    : "pdo_mysql",
+    "charset"                   : "utf8",
+    "host"                      : "localhost",
+    "dbname"                    : "",
+    "user"                      : "",
+    "password"                  : ""
+  },
+  "CFLXML"  : "",
+  "wordsToTag" : [
+    "cancelled",
+    "train",
+    "luxembourg",
+    "bus",
+    "strike', 'esch",
+    "delay",
+    "delays",
+    "esch/alzette",
+    "breakdown",
+    "longwy",
+    "metz', 'obstacle",
+    "technical",
+    "mersch",
+    "ettelbruck",
+    "bettembourg"
+  ]
+}
