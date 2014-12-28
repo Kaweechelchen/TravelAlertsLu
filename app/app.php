@@ -19,12 +19,11 @@
 
     $app->mount( '/scrape', new travelAlertsLu\scrapeControllerProvider() );
 
-    /*$app->mount( '/json', new travelAlertsLu\jsonControllerProvider() );
+    $app->mount( '/api/1/', new travelAlertsLu\jsonControllerProvider() );
 
     $app->get('/', function() use ($app) {
-        return $app->redirect( '/json' );
+        return $app->redirect( '/api/1' );
     });
-    */
 
     $app->after(function ( Request $request, Response $response ) {
 

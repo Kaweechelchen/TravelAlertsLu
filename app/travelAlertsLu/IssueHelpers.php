@@ -1,9 +1,7 @@
 <?php
 
   namespace travelAlertsLu;
-
   use Silex\Application;
-
   class IssueHelpers {
 
     static public function CFLData( $app ) {
@@ -226,6 +224,20 @@
       );
 
       return $app['db']->lastInsertId();
+
+    }
+
+    static public function getIssues( $app ) {
+
+      $issuesQuery = 'SELECT *
+        FROM      issues
+        ORDER BY  id';
+
+      $issues = $app[ 'db' ]->fetchAll(
+        $issuesQuery
+      );
+
+      return $issues;
 
     }
 
