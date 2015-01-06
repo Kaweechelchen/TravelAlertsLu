@@ -27,7 +27,7 @@
 					{% for issue in issues %}
 
 					<li>
-						<time class="cbp_tmtime"><span>{{ issue.date|date("j. M") }}</span> <span>{{ issue.date|date("H:i") }}</span></time>
+						<time class="cbp_tmtime"><span>{{ issue.date|date("j. M 'y") }}</span> <span>{{ issue.date|date("H:i") }}</span></time>
 						<div class="cbp_tmicon "><i class="fa fa-bus"></i></div>
 						<div class="cbp_tmlabel">
 							<h2>{{ issue.title }}</h2>
