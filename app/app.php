@@ -17,11 +17,18 @@
         array( $app['db.options'] )
     );
 
+    // Provides Twig template engine
+    $app->register(new Silex\Provider\TwigServiceProvider(), array(
+        'twig.path' => __DIR__.'/views',
+    ));
+
+    $app->mount( '/', new travelAlertsLu\viewControllerProvider() );
+
     $app->mount( '/scrape', new travelAlertsLu\scrapeControllerProvider() );
 
     $app->mount( '/api/1/', new travelAlertsLu\jsonControllerProvider() );
 
-    $app->get('/', function() use ($app) {
+    $app->get('/json', function() use ($app) {
         return $app->redirect( '/api/1' );
     });
 

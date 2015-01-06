@@ -227,17 +227,49 @@
 
     }
 
-    static public function getIssues( $app ) {
+    static public function getIssues( $app, $limit = 0, $order = 'ASC' ) {
 
       $issuesQuery = 'SELECT *
         FROM      issues
-        ORDER BY  id';
+        ORDER BY  id ' . $order;
+
+      if ( $limit != 0) {
+        $issuesQuery .= ' LIMIT ' . $limit;
+      }
 
       $issues = $app[ 'db' ]->fetchAll(
         $issuesQuery
       );
 
       return $issues;
+
+    }
+
+    static public function getIssuesCleaned ( $app, $limit = 0, $order = 'ASC' ) {
+
+      $issues = self::getIssues( $app, $limit, $order );
+
+      $descriptionPattern = '/<br\ \/><br\ \/>\n(.*?) <br/s';
+
+      foreach ( $issues as $issue ) {
+
+        preg_match(
+          $descriptionPattern,
+          $issue[ 'description' ],
+          $descriptionMatches
+        );
+
+        $newIssue[ 'description' ] = $descriptionMatches[1];
+
+        $newIssue[ 'id' ]    = $issue[ 'id' ];
+        $newIssue[ 'title' ] = $issue[ 'title' ];
+        $newIssue[ 'date' ]  = strtotime( $issue[ 'pubDate' ] );
+
+        $cleanIssues[] = $newIssue;
+
+      }
+
+      return $cleanIssues;
 
     }
 
