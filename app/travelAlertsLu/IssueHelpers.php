@@ -51,7 +51,7 @@
 
         $issue[ 'description' ] = $descriptionMatches[1];
 
-        $description = $issue[ 'description' ];
+        $description = str_replace( '<br />', "\n", $issue[ 'description' ] );
 
         $words = explode( ' ', $description );
 
