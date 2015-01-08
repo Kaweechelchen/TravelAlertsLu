@@ -34,7 +34,6 @@ a:hover {
 
 .main,
 .container > header {
-	width: 90%;
 	max-width: 69em;
 	margin: 0 auto;
 	padding: 0 1.875em 3.125em 1.875em;
@@ -168,6 +167,13 @@ a:hover {
 }
 
 @media screen and (max-width: 55em) {
+
+	.main {
+		padding: 0 0.5em;
+	}
+	.container > header {
+		padding: 1em 1em 0;
+	}
 
 	.container > header h1,
 	.container > header nav {
