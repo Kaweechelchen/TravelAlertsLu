@@ -53,6 +53,8 @@
 
         $description = html_entity_decode(str_replace( '<br />', "\n", $issue[ 'description' ] ), ENT_HTML5 || ENT_COMPAT);
 
+        $description = self::fixSpelling( $description );
+
         $words = explode( ' ', $description );
 
         $tweet = '';
@@ -260,6 +262,14 @@
       }
 
       return $cleanIssues;
+
+    }
+
+    static public function fixSpelling ( $description ){
+
+      $description = str_replace( 'a lots of', 'a lot of', $description);
+
+      return $description;
 
     }
 
