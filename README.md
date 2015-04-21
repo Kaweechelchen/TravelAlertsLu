@@ -1,11 +1,7 @@
 TravelAlertsLu
 ========
 
-Information soon ;)
-
-## Twitter API handler
-
-I got some code from [James Mallison](https://github.com/j7mbo) https://github.com/j7mbo/twitter-api-php
+TravelAlerts.lu is a project launched by [Thierry Degeling](https://twitter.com/Kaweechelchen) in 2014. The goal of the project is to inform the customers of the Luxembourgish train company about delays and issues on the tracks.
 
 ## License
 Copyright (c) 2014 [Thierry Degeling](https://twitter.com/Kaweechelchen)
