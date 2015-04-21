@@ -283,6 +283,15 @@
       $description = str_replace( '. FURTHER INFORMATION AS SOON AS POSSIBLE.', '', $description);
       $description = str_replace( 'train traffic', 'traffic', $description);
 
+      $worksIn_pattern = '/.*works in (.*?),/s';
+
+      if ( preg_match( $worksIn_pattern, $description, $descriptionMatches ) ){
+
+        $worksIn_city = $descriptionMatches[1];
+        $description = str_replace( $descriptionMatches[0], $descriptionMatches[1] . ':', $description);
+
+      }
+
       return $description;
 
     }
