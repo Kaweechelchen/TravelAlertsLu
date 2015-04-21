@@ -13,6 +13,15 @@
         )
     );
 
+    $twitterSettings = array(
+      'consumer_key'              => $app[ 'tw.options' ][ 'consumer_key'               ],
+      'consumer_secret'           => $app[ 'tw.options' ][ 'consumer_secret'            ],
+      'oauth_access_token'        => $app[ 'tw.options' ][ 'oauth_access_token'         ],
+      'oauth_access_token_secret' => $app[ 'tw.options' ][ 'oauth_access_token_secret'  ]
+    );
+
+    $app[ 'tw' ] = new TwitterAPIExchange( $twitterSettings );
+
     $app->register( new Silex\Provider\DoctrineServiceProvider(),
         array( $app['db.options'] )
     );

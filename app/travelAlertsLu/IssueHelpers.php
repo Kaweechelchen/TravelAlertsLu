@@ -179,18 +179,8 @@
 
     static public function tweet( $app, $tweet, $replyTo ) {
 
-      $twitterSettings = array(
-          'consumer_key'              => $app[ 'twitter' ][ 'consumer_key'               ],
-          'consumer_secret'           => $app[ 'twitter' ][ 'consumer_secret'            ],
-          'oauth_access_token'        => $app[ 'twitter' ][ 'oauth_access_token'         ],
-          'oauth_access_token_secret' => $app[ 'twitter' ][ 'oauth_access_token_secret'  ]
-      );
-
       $url = 'https://api.twitter.com/1.1/statuses/update.json';
       $requestMethod = 'POST';
-
-      /** Perform a POST request and echo the response **/
-      $twitter = new TwitterAPIExchange( $twitterSettings );
 
       $postfields[ 'status' ] = $tweet;
       if ( $replyTo != 0 ) {
@@ -198,9 +188,9 @@
       }
 
       $twitterResult = json_decode(
-        $twitter->buildOauth( $url, $requestMethod )
-                 ->setPostfields( $postfields )
-                 ->performRequest()
+        $app[ 'tw' ]->buildOauth( $url, $requestMethod )
+                    ->setPostfields( $postfields )
+                    ->performRequest()
       , true);
 
       if ( array_key_exists( 'id', $twitterResult ) ) {

@@ -1,6 +1,6 @@
 {
-  "debug" : true,
-  "twitter": {
+  "debug" : false,
+  "tw.options": {
     "oauth_access_token"        : "",
     "oauth_access_token_secret" : "",
     "consumer_key"              : "",
