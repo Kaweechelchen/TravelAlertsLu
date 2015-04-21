@@ -201,6 +201,8 @@
       $requestMethod = 'POST';
 
       $postfields[ 'status' ] = $tweet;
+      $postfields[ 'lat'    ] = 49.598666;
+      $postfields[ 'long'   ] = 6.1330168;
       if ( $replyTo != 0 ) {
         $postfields[ 'in_reply_to_status_id' ] = $replyTo;
       }
