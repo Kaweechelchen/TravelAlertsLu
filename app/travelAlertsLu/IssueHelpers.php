@@ -55,6 +55,8 @@
 
         $description = self::fixSpelling( $description );
 
+        $description = self::makeIssueReadable( $description );
+
         $words = explode( ' ', $description );
 
         $tweet = '';
@@ -268,6 +270,18 @@
     static public function fixSpelling ( $description ){
 
       $description = str_replace( 'a lots of', 'a lot of', $description);
+
+      return $description;
+
+    }
+
+    static public function makeIssueReadable ( $description ){
+
+      $description = str_replace( 'Due to failure of the signal box', 'signal failure', $description);
+      $description = str_replace( 'Due to signalling problems', 'signal failure', $description);
+      $description = str_replace( '. Delays and cancellations may still be expected.', '', $description);
+      $description = str_replace( '. FURTHER INFORMATION AS SOON AS POSSIBLE.', '', $description);
+      $description = str_replace( 'train traffic', 'traffic', $description);
 
       return $description;
 
