@@ -57,14 +57,28 @@
 
         $description = self::makeIssueReadable( $description );
 
-        $words = explode( ' ', $description );
+        $wordsBySpace = explode( ' ', $description );
+
+        foreach ($wordsBySpace as $wordBySpace) {
+          $tmpWords = explode( "\n", $wordBySpace );
+
+          foreach ($tmpWords as $key => $tmpWord) {
+            $words[] = $tmpWord;
+
+            if ( ($key + 1) < sizeof( $tmpWords ) ){
+              $words[] = "\n";
+            }
+
+          }
+
+        }
 
         $tweet = '';
         unset( $tweets );
 
         foreach ($words as $word) {
 
-          if ( $word != '' ) {
+          if ( $word !== '' ) {
 
             if ( in_array( strtolower( $word ), $app[ 'wordsToTag' ] ) ) {
               $word = '#'.$word;
@@ -277,20 +291,65 @@
 
     static public function makeIssueReadable ( $description ){
 
-      $description = str_replace( 'Due to failure of the signal box', 'signal failure', $description);
-      $description = str_replace( 'Due to signalling problems', 'signal failure', $description);
-      $description = str_replace( '. Delays and cancellations may still be expected.', '', $description);
-      $description = str_replace( '. FURTHER INFORMATION AS SOON AS POSSIBLE.', '', $description);
-      $description = str_replace( 'train traffic', 'traffic', $description);
+      // Replacing strings with shortder ones
+      $removeStrings = array(
+        '. Delays and cancellations may still be expected',
+        '. FURTHER INFORMATION AS SOON AS POSSIBLE',
+        'Due to works, ',
+        '(and vice versa) '
+      );
+
+      foreach ( $removeStrings as $needle ) {
+        $description = str_replace( $needle, '', $description);
+      }
+
+      // Replacing strings with shortder ones
+      $replaceStrings = array(
+        'Due to failure of the signal box'  =>  'Signal failure',
+        'Due to signalling problems'        =>  'Signal failure',
+        'Due to catenary works, '           =>  'Catenary works: ',
+        'the section of the line between'   =>  'the section between',
+        'Luxemburg'                         =>  'Luxembourg',
+        'plateform'                         =>  'platform',
+        'train traffic'                     =>  'traffic',
+        'train service'                     =>  'service',
+        ', '                                =>  "\n",
+        '–'                                 =>  "➡️",
+        ' SNCB '                            =>  " @SNCB ",
+        ' SNCF '                            =>  " @SNCF ",
+        ' DB '                              =>  " @DB_Bahn "
+      );
+
+      foreach ( $replaceStrings as $needle => $replacement ) {
+        $description = str_replace( $needle, $replacement, $description);
+      }
+
+      $worksIn_pattern = '/Due to works in the train station of (.*?),/s';
+
+      if ( preg_match( $worksIn_pattern, $description, $descriptionMatches ) ){
+
+        $worksIn_city = $descriptionMatches[1];
+        $description = str_replace( $descriptionMatches[0], '#' . $descriptionMatches[1] . ':', $description);
+
+      }
 
       $worksIn_pattern = '/.*works in (.*?),/s';
 
       if ( preg_match( $worksIn_pattern, $description, $descriptionMatches ) ){
 
         $worksIn_city = $descriptionMatches[1];
-        $description = str_replace( $descriptionMatches[0], $descriptionMatches[1] . ':', $description);
+        $description = str_replace( $descriptionMatches[0], '#' . $descriptionMatches[1] . ':', $description);
 
       }
+
+      if ( strpos($description, ' TER') !== false ){
+
+        $description .= "\n/cc @TER_Metz_Lux";
+
+      }
+
+      // Uppercase first letter and trip "." at the end
+      $description = ucfirst( trim( $description, "." ) );
 
       return $description;
 
