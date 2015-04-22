@@ -14,13 +14,12 @@
     "user"                      : "",
     "password"                  : ""
   },
-  "CFLXML"  : "",
+  "CFLXML"  : "http://mobile.cfl.lu/bin/help.exe/enl?tpl=rss_feed_global",
   "wordsToTag" : [
     "cancelled",
     "train",
     "luxembourg",
     "bus",
-    "strike', 'esch",
     "delay",
     "delays",
     "esch/alzette",
@@ -30,6 +29,15 @@
     "technical",
     "mersch",
     "ettelbruck",
-    "bettembourg"
+    "bettembourg",
+    "rodange",
+    "dommeldange",
+    "walferdange",
+    "berchem",
+    "noertzange",
+    "diekirch",
+    "hollerich",
+    "dippach",
+    "petange"
   ]
 }
