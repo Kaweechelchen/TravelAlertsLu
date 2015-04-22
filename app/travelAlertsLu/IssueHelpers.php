@@ -360,7 +360,7 @@
 
       }
 
-      $delay_pattern = '/.* ((delay of )(.*?)( ([a-z,A-Z]*?) is expected on )(.*?) trains)/s';
+      $delay_pattern = '/.*((a delay of )(.*?)( ([a-z,A-Z]*?) is expected on )(.*?) trains)/s';
 
       if ( preg_match( $delay_pattern, $description, $descriptionMatches ) ){
 
