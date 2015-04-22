@@ -76,6 +76,8 @@
         $tweet = '';
         unset( $tweets );
 
+        $previousWord = '';
+
         foreach ($words as $word) {
 
           if ( $word !== '' ) {
@@ -90,13 +92,15 @@
             }
 
             if (
-                 (   strlen( $tweet ) != 0 )
-              && ( ! strstr( $word, PHP_EOL ) )
+                 ( strlen( $tweet ) != 0 )
+              && ( strpos($word, "\n" ) === false )
+              && ( strpos($previousWord, "\n" ) === false )
             ) {
               $tweet .= ' ';
             }
 
             $tweet .= $word;
+            $previousWord = $word;
 
           }
 
