@@ -360,6 +360,17 @@
 
       }
 
+      $delay_pattern = '/.* ((delay of )(.*?)( ([a-z,A-Z]*?) is expected on )(.*?) trains)/s';
+
+      if ( preg_match( $delay_pattern, $description, $descriptionMatches ) ){
+
+        $delay = str_replace(' ', '', $descriptionMatches[3]);
+        $description = str_replace( $descriptionMatches[1], "\n#Delay:" . $delay . ' ' . $descriptionMatches[5], $description);
+
+      }
+
+
+
       if ( strpos($description, ' TER') !== false ){
 
         $description .= "\n/cc @TER_Metz_Lux";
