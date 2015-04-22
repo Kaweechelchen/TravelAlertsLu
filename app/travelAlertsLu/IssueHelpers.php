@@ -372,8 +372,8 @@
 
 
       if ( strpos($description, ' TER'  ) !== false
-        || strpos($description, 'Metz'  ) !== false
-        || strpos($description, 'Longwy') !== false ){
+        || strpos($description, 'Metz'  ) !== false
+        || strpos($description, 'Longwy') !== false ){
 
         $description .= "\n/cc @TER_Metz_Lux";
 
