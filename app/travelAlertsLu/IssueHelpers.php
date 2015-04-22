@@ -365,7 +365,7 @@
       if ( preg_match( $delay_pattern, $description, $descriptionMatches ) ){
 
         $delay = str_replace(' ', '', $descriptionMatches[3]);
-        $description = str_replace( $descriptionMatches[1], "\n#Delay:" . $delay . ' ' . $descriptionMatches[5], $description);
+        $description = str_replace( $descriptionMatches[1], "#Delay:" . $delay . ' ' . $descriptionMatches[5], $description);
 
       }
 
