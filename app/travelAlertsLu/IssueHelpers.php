@@ -89,7 +89,10 @@
               $tweet = '';
             }
 
-            if ( strlen( $tweet ) != 0 ) {
+            if (
+                 (   strlen( $tweet ) != 0 )
+              && ( ! strstr( $word, PHP_EOL ) )
+            ) {
               $tweet .= ' ';
             }
 
