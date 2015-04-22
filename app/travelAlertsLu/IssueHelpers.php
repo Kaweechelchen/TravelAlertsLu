@@ -318,11 +318,11 @@
         'plateform'                         =>  'platform',
         'train traffic'                     =>  'traffic',
         'train service'                     =>  'service',
-        ', '                                =>  "\n",
         '–'                                 =>  "➡️",
         ' SNCB '                            =>  " @SNCB ",
         ' SNCF '                            =>  " @SNCF ",
         ' DB '                              =>  " @DB_Bahn "
+        ', '                                =>  "\n"
       );
 
       foreach ( $replaceStrings as $needle => $replacement ) {
