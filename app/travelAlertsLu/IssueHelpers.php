@@ -317,6 +317,7 @@
         'Due to failure of the signal box'  =>  'Signal failure',
         'Due to signalling problems'        =>  'Signal failure',
         'Due to catenary works, '           =>  'Catenary works: ',
+        'Due to operational problems'       =>  'operational problems',
         'the section of the line between'   =>  'the section between',
         'Luxemburg'                         =>  'Luxembourg',
         'plateform'                         =>  'platform',
