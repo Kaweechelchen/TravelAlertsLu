@@ -351,6 +351,15 @@
 
       }
 
+      $solvedAtTime_pattern = '/.* has been solved( at ([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9])/s';
+
+      if ( preg_match( $solvedAtTime_pattern, $description, $descriptionMatches ) ){
+
+        $solvedAtTime = $descriptionMatches[1];
+        $description = str_replace( $descriptionMatches[1], '', $description);
+
+      }
+
       if ( strpos($description, ' TER') !== false ){
 
         $description .= "\n/cc @TER_Metz_Lux";
