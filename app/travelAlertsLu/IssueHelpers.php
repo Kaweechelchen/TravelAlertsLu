@@ -319,9 +319,9 @@
         'train traffic'                     =>  'traffic',
         'train service'                     =>  'service',
         '–'                                 =>  "➡️",
-        ' SNCB '                            =>  " @SNCB ",
-        ' SNCF '                            =>  " @SNCF ",
-        ' DB '                              =>  " @DB_Bahn "
+        'SNCB '                             =>  "@SNCB ",
+        'SNCF '                             =>  "@SNCF ",
+        'DB '                               =>  "@DB_Bahn ",
         ', '                                =>  "\n"
       );
 
