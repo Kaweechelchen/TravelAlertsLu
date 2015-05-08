@@ -1,7 +1,7 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
     "hash": "057a06971151bbd79bed9ae09b221b8b",
@@ -538,13 +538,19 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/J7mbo/twitter-api-php.git",
-                "reference": "ab76f1c1e6bf83f0a257216cbaf9932b7cc19a3f"
+                "reference": "f41f025285d65da81a9782aee5a38bba9b253b8a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/J7mbo/twitter-api-php/zipball/ab76f1c1e6bf83f0a257216cbaf9932b7cc19a3f",
-                "reference": "ab76f1c1e6bf83f0a257216cbaf9932b7cc19a3f",
+                "url": "https://api.github.com/repos/J7mbo/twitter-api-php/zipball/f41f025285d65da81a9782aee5a38bba9b253b8a",
+                "reference": "f41f025285d65da81a9782aee5a38bba9b253b8a",
                 "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "4.5.1"
             },
             "type": "library",
             "autoload": {
@@ -569,19 +575,19 @@
                 "php",
                 "twitter"
             ],
-            "time": "2013-10-03 10:04:59"
+            "time": "2015-05-08 06:52:52"
         },
         {
             "name": "pimple/pimple",
             "version": "v1.1.1",
             "source": {
                 "type": "git",
-                "url": "https://github.com/fabpot/Pimple.git",
+                "url": "https://github.com/silexphp/Pimple.git",
                 "reference": "2019c145fe393923f3441b23f29bbdfaa5c58c4d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fabpot/Pimple/zipball/2019c145fe393923f3441b23f29bbdfaa5c58c4d",
+                "url": "https://api.github.com/repos/silexphp/Pimple/zipball/2019c145fe393923f3441b23f29bbdfaa5c58c4d",
                 "reference": "2019c145fe393923f3441b23f29bbdfaa5c58c4d",
                 "shasum": ""
             },
