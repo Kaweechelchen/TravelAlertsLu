@@ -59,6 +59,7 @@
       // remove metda data (like the website and copyright info) from the array
       $cleanData = self::removeMetaData( $rawData );
 
+      // return the cleaned array
       return $cleanData;
 
     }
