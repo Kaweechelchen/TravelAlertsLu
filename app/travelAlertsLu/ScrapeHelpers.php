@@ -56,8 +56,11 @@
 
     static public function cleanData( $rawData ) {
 
-      // remove metda data (like the website and copyright info) from the array
-      $cleanData = self::removeMetaData( $rawData );
+      // remove meta data (like the website and copyright info) from the array
+      $minifiedData = self::removeMetaData( $rawData );
+
+      // remove newlines from the descriptions
+      $cleanData = self::removeNewLines( $minifiedData );
 
       // return the cleaned array
       return $cleanData;
@@ -72,8 +75,26 @@
         // Check if there is information on the furrent line
         if ( array_key_exists( 'item', $lineData[ 'channel' ] ) ) {
 
-          // Put the line information in the minified array of data
-          $minifiedData[ $line ] = $lineData[ 'channel' ][ 'item' ];
+          // Put the issues data in a variable
+          $lineIssues = $lineData[ 'channel' ][ 'item' ];
+
+          // loop through the different lineIssues
+          foreach ($lineIssues as $lineIssueNumber => $lineIssue) {
+
+            // Check if the lineIssue is an array of multiple issues
+            if ( is_array( $lineIssue ) ) {
+
+              // Put the line information in the minified array of data
+              $minifiedData[ $line ][ $lineIssueNumber ] = $lineIssue;
+
+            } else {
+
+              // Put the line information in the minified array of data
+              $minifiedData[ $line ][ 0 ] = $lineIssues;
+
+            }
+
+          }
 
         } else {
 
@@ -86,6 +107,94 @@
 
       // Return the minified version of the array
       return $minifiedData;
+
+    }
+
+    static public function removeNewLines( $minifiedData ) {
+
+      // Loop through all the lines
+      foreach ($minifiedData as $line => $lineData) {
+
+        // Loop through all the issues on that line
+        foreach ($lineData as $issueNumber => $issueData) {
+
+          // put the issue in the $issue variable
+          $issue = $minifiedData[ $line ][ $issueNumber ];
+
+          // Set up the pattern to extract the dates and the description of the
+          // issue
+          $descriptionPattern = '/([^\n]+)([\n]+)(.+[^\s]+)/s';
+
+          // apply the regular expression and output the result to
+          // $descriptionMatches
+          preg_match(
+            $descriptionPattern,
+            strip_tags( $issue[ 'description' ] ),
+            $descriptionMatches
+          );
+
+          // Refactor the dates and convert them to unix timestamps
+          $issue = self::reFactorDates( $issue, $descriptionMatches[ 1 ] );
+
+          // replace the description with only the text part of it
+          $issue[ 'description' ]  = $descriptionMatches[ 3 ];
+
+          // Add the refactored issue to the array
+          $cleanData[ $line ][ $issueNumber ] = $issue;
+
+        }
+
+      }
+
+      // Return the minified version of the array
+      return $cleanData;
+
+    }
+
+    static public function reFactorDates( $issue, $date ) {
+
+      // Set up the pattern to extract the different parts of start and end date
+      // and/or time
+      $datePattern = '/(\d{1,2}\.\d{1,2}\.\d{4})?(\ (\d{1,2}\:\d{2}))?(\ -(\ (\d{1,2}\.\d{1,2}\.\d{4}))?(\ (\d{1,2}\:\d{2}))?)?/s';
+
+      // apply the regular expression and output the result to $dateMatches
+      preg_match(
+        $datePattern,
+        $date,
+        $dateMatches
+      );
+
+      // convert the end datetime to a unix timestamp
+      $issue[ 'start' ]    = strtotime(
+        $dateMatches[ 1 ] . ' ' . $dateMatches[ 3 ]
+      );
+
+      // convert the end datetime to a unix timestamp
+      $dateEnd = '';
+
+      if ( array_key_exists( 6 , $dateMatches) ) {
+
+        $dateEnd .= $dateMatches[ 6 ];
+
+        if ( array_key_exists( 8 , $dateMatches) ) {
+
+          $dateEnd .= ' ' . $dateMatches[ 8 ];
+
+        }
+
+      } elseif ( array_key_exists( 8 , $dateMatches) ) {
+
+        $dateEnd .= $dateMatches[ 8 ];
+
+      }
+
+      $issue[ 'end' ]     = strtotime( $dateEnd );
+
+      // convert the publication datetime to a unix timestamp
+      $issue[ 'pubDate' ] = strtotime( $issue[ 'pubDate' ] );
+
+      // return the refactored dates
+      return $issue;
 
     }
 

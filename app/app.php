@@ -3,6 +3,8 @@
     use Symfony\Component\HttpFoundation\Request;
     use Symfony\Component\HttpFoundation\Response;
 
+    date_default_timezone_set('Europe/Luxembourg');
+
     require_once __DIR__.'/bootstrap.php';
 
     $app = new Silex\Application();
