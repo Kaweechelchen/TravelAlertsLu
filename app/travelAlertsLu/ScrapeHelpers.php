@@ -6,6 +6,19 @@
 
     static public function getData( $app ) {
 
+      // Get the data XML data
+      $rawData = self::getRawData( $app );
+
+      // remove all the unnecessary things
+      $cleanData = self::cleanData( $rawData );
+
+      // return the current state to the controller
+      return $cleanData;
+
+    }
+
+    static public function getRawData( $app ) {
+
       // Loop through all the lines defined in the config file to get all the
       // XML data we need
       foreach ($app[ 'XMLAPI' ][ 'lines' ] as $lineNumber => $lineName) {
@@ -19,11 +32,7 @@
 
       }
 
-      // remove metda data (like the website and copyright info) from the array
-      $minifiedData = self::removeMetaData( $rawData );
-
-      // return the current state to the controller
-      return $minifiedData;
+      return $rawData;
 
     }
 
@@ -42,6 +51,15 @@
 
       // Return the array
       return $array;
+
+    }
+
+    static public function cleanData( $rawData ) {
+
+      // remove metda data (like the website and copyright info) from the array
+      $cleanData = self::removeMetaData( $rawData );
+
+      return $cleanData;
 
     }
 
