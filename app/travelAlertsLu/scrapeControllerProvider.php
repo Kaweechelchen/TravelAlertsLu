@@ -13,11 +13,13 @@
 
       $ctr->get( '/', function( Application $app ) {
 
-        $data = ScrapeHelpers::getData( $app );
-
         echo '<pre>';
 
-        print_r( $data );
+        $lineIssues = ScrapeHelpers::getData( $app );
+
+        $storage = StorageHelpers::saveIssues( $app, $lineIssues );
+
+        //print_r( $storage );
 
         return false;
 

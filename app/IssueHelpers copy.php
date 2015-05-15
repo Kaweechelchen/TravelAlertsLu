@@ -4,10 +4,18 @@
   use Silex\Application;
   class IssueHelpers {
 
+    static public function getCFLData( $app ) {
+
+
+
+    }
+
     static public function CFLData( $app ) {
 
+      echo '<pre>';
+
         // Reading the XML from the CFL feed
-        $CFLXMLData = simplexml_load_file( $app[ 'CFLXML' ], NULL, LIBXML_NOCDATA);
+        $CFLXMLData = simplexml_load_file( $app[ 'XMLAPI' ][ '' ], NULL, LIBXML_NOCDATA);
 
         $CFLXMLData   = json_decode(
             json_encode( $CFLXMLData ),
@@ -36,6 +44,9 @@
     }
 
     static public function handleIssue( $app, $issue ) {
+
+      print_r( $issue );
+      break;
 
       if ( ! self::issueExisting( $app, $issue ) ) {
 
