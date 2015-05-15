@@ -13,9 +13,13 @@
 
       $ctr->get( '/', function( Application $app ) {
 
-        $CFLData  = IssueHelpers::CFLData  ( $app );
+        $data = ScrapeHelpers::getData( $app );
 
-        return $CFLData;
+        echo '<pre>';
+
+        print_r( $data );
+
+        return false;
 
       });
 
