@@ -19,8 +19,11 @@
 
       }
 
+      // remove metda data (like the website and copyright info) from the array
+      $minifiedData = self::removeMetaData( $rawData );
+
       // return the current state to the controller
-      return $rawData;
+      return $minifiedData;
 
     }
 
@@ -39,6 +42,31 @@
 
       // Return the array
       return $array;
+
+    }
+
+    static public function removeMetaData( $rawData ) {
+
+      // Loop through all the lines
+      foreach ($rawData as $line => $lineData) {
+
+        // Check if there is information on the furrent line
+        if ( array_key_exists( 'item', $lineData[ 'channel' ] ) ) {
+
+          // Put the line information in the minified array of data
+          $minifiedData[ $line ] = $lineData[ 'channel' ][ 'item' ];
+
+        } else {
+
+          // if there's no information available, put an empty array here
+          $minifiedData[ $line ] = array();
+
+        }
+
+      }
+
+      // Return the minified version of the array
+      return $minifiedData;
 
     }
 
