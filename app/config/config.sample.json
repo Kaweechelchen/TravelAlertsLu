@@ -18,12 +18,12 @@
     "base" : "http://mobile.cfl.lu/bin/help.exe/enl?tpl=rss_feed_",
     "lines" : {
       "10" : "line_10",
-      "10" : "line_30",
-      "10" : "line_50",
-      "10" : "line_60",
-      "10" : "line_70",
-      "10" : "line_80",
-      "10" : "line_90"
+      "30" : "line_30",
+      "50" : "line_50",
+      "60" : "line_60",
+      "70" : "line_70",
+      "80" : "line_80",
+      "90" : "line_90"
     },
     "global" : "global"
   },
