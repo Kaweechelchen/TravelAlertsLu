@@ -35,13 +35,9 @@
 
     $app->mount( '/', new travelAlertsLu\viewControllerProvider() );
 
-    $app->mount( '/scrape', new travelAlertsLu\scrapeControllerProvider() );
+    $app->mount( '/api', new travelAlertsLu\apiControllerProvider() );
 
-    $app->mount( '/api/1/', new travelAlertsLu\jsonControllerProvider() );
-
-    $app->get('/json', function() use ($app) {
-        return $app->redirect( '/api/1' );
-    });
+    //$app->mount( '/api/1/', new travelAlertsLu\jsonControllerProvider() );
 
     $app->after(function ( Request $request, Response $response ) {
 

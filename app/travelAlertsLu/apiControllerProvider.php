@@ -5,7 +5,7 @@
   use Silex\Application;
   use Silex\ControllerProviderInterface;
 
-  class scrapeControllerProvider implements ControllerProviderInterface {
+  class apiControllerProvider implements ControllerProviderInterface {
 
     public function connect ( Application $app ) {
 
@@ -13,15 +13,15 @@
 
       $ctr->get( '/', function( Application $app ) {
 
-        echo '<pre>';
+        //echo '<pre>';
 
         $lineIssues = ScrapeHelpers::getData( $app );
 
-        $storage = StorageHelpers::saveIssues( $app, $lineIssues );
+        //echo json_encode( $ );
 
-        //print_r( $storage );
+        //$storage = StorageHelpers::saveIssues( $app, $lineIssues );
 
-        return false;
+        return $app->json( $lineIssues );
 
       });
 

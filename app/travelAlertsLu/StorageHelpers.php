@@ -13,7 +13,6 @@
           $issueId = self::getIssueId( $app, $issue );
 
           var_dump( $issue );
-          exit;
 
           if ( $issueId ) {
 
