@@ -33,16 +33,14 @@
         'twig.path' => __DIR__.'/views',
     ));
 
-    $app->mount( '/', new travelAlertsLu\viewControllerProvider() );
-
-    $app->mount( '/api', new travelAlertsLu\apiControllerProvider() );
-
-    //$app->mount( '/api/1/', new travelAlertsLu\jsonControllerProvider() );
-
     $app->after(function ( Request $request, Response $response ) {
 
         $response->headers->set('Access-Control-Allow-Origin', '*');
 
     });
+
+    $app->mount( '/', new travelAlertsLu\viewControllerProvider() );
+    $app->mount( '/api', new travelAlertsLu\apiControllerProvider() );
+    $app->mount( '/scrape', new travelAlertsLu\scrapeControllerProvider() );
 
     return $app;

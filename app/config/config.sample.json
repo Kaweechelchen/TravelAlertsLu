@@ -17,15 +17,15 @@
   "XMLAPI" : {
     "base" : "http://mobile.cfl.lu/bin/help.exe/enl?tpl=rss_feed_",
     "lines" : {
-      "10" : "line_10",
-      "30" : "line_30",
-      "50" : "line_50",
-      "60" : "line_60",
-      "70" : "line_70",
-      "80" : "line_80",
-      "90" : "line_90"
-    },
-    "global" : "global"
+      "line10" : "line_10",
+      "line30" : "line_30",
+      "line50" : "line_50",
+      "line60" : "line_60",
+      "line70" : "line_70",
+      "line80" : "line_80",
+      "line90" : "line_90",
+      "global" : "global"
+    }
   },
   "wordsToTag" : [
     "cancelled",
@@ -51,5 +51,6 @@
     "hollerich",
     "dippach",
     "petange"
-  ]
+  ],
+  "secondsToDiffer" : 21600
 }

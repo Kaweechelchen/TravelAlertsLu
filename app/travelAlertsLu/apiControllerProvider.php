@@ -11,17 +11,15 @@
 
       $ctr = $app['controllers_factory'];
 
-      $ctr->get( '/', function( Application $app ) {
+      $ctr->get('/', function() use ($app) {
 
-        //echo '<pre>';
+        return $app->redirect( '/api/current' );
 
-        $lineIssues = ScrapeHelpers::getData( $app );
+      });
 
-        //echo json_encode( $ );
+      $ctr->get( '/current', function( Application $app ) {
 
-        //$storage = StorageHelpers::saveIssues( $app, $lineIssues );
-
-        return $app->json( $lineIssues );
+        return $app->json( Issues::getCurrent() );
 
       });
 

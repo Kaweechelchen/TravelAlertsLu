@@ -2,9 +2,9 @@
 
   namespace travelAlertsLu;
   use Silex\Application;
-  class ScrapeHelpers {
+  class Issues {
 
-    static public function getData( $app ) {
+    static public function getLineIssues( $app ) {
 
       // Get the data XML data
       $rawData = self::getRawData( $app );
@@ -137,7 +137,20 @@
           $issue = self::reFactorDates( $issue, $descriptionMatches[ 1 ] );
 
           // replace the description with only the text part of it
-          $issue[ 'description' ]  = $descriptionMatches[ 3 ];
+          $issue[ 'description' ] = $descriptionMatches[ 3 ];
+
+          // replace html breaks by newlines
+          $issue[ 'description' ] = str_replace(
+            '<br />',
+            "\n",
+            $issue[ 'description' ]
+          );
+
+          // decode html entities
+          $issue[ 'description' ] = html_entity_decode(
+            $issue[ 'description' ],
+            ENT_HTML5 || ENT_COMPAT
+          );
 
           // Add the refactored issue to the array
           $cleanData[ $line ][ $issueNumber ] = $issue;
@@ -195,6 +208,17 @@
 
       // return the refactored dates
       return $issue;
+
+    }
+
+    static public function getCurrent() {
+
+      return json_decode(
+        file_get_contents(
+          'current.json'
+        ),
+        true
+      );
 
     }
 
