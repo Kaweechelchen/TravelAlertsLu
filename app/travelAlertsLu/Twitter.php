@@ -9,6 +9,7 @@
       $issue = $issue[ 'description' ];
 
       $issue  = self::delayReadable       ( $issue );
+      $issue  = self::dueToReadable       ( $issue );
       $issue  = self::departure           ( $issue );
       $issue  = self::tagTrain            ( $issue );
       $issue  = self::tagIssue            ( $issue );
@@ -122,6 +123,20 @@
         if ( strtolower( $delayMatches[8] ) == 'minutes' ) {
           $issue .= 'm';
         }
+
+      }
+
+      return $issue;
+
+    }
+
+    static public function dueToReadable ( $issue ) {
+
+      $dueTo_pattern = '/(((Due to )(\w*|\ *)),)/s';
+
+      if ( preg_match( $dueTo_pattern, $issue, $dueToMatches ) ){
+
+        $issue = str_replace( $dueToMatches[1], $dueToMatches[4] . ':', $issue);
 
       }
 
