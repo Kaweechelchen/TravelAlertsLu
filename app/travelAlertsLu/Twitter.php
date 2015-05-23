@@ -10,6 +10,7 @@
 
       $issue  = self::delayReadable       ( $issue );
       $issue  = self::dueToReadable       ( $issue );
+      $issue  = self::shortenDate         ( $issue );
       $issue  = self::departure           ( $issue );
       $issue  = self::tagTrain            ( $issue );
       $issue  = self::tagIssue            ( $issue );
@@ -137,6 +138,56 @@
       if ( preg_match( $dueTo_pattern, $issue, $dueToMatches ) ){
 
         $issue = str_replace( $dueToMatches[1], $dueToMatches[4] . ':', $issue);
+
+      }
+
+      return $issue;
+
+    }
+
+    static public function shortenDate ( $issue ) {
+
+      $date_pattern = '/(((?:Mon(?:day)?|Tue(?:sday)?|Wed(?:nesday)?|Thu(?:rsday)?|Fri(?:day)?|Sat(?:urday)?|Sun(?:day)?|Sun(?:day)?)(?!\w))?(,)?( )(\d{1,2})(st|nd|rd)?( )((?:Jan(?:uary)?|Feb(?:ruary)?|Mar(?:ch)?|Apr(?:il)?|May?|Jun(?:e)?|Jul(?:y)?|Aug(?:ust)?|Sep(?:tember)?|Oct(?:ober)?|Nov(?:ember)?|Dec(?:ember)?)(?!\w|\s))?)/i';
+
+      if ( preg_match_all( $date_pattern, $issue, $dateMatches, PREG_SET_ORDER ) ){
+
+        foreach ( $dateMatches as $dateMatch) {
+
+          // initialize date variables
+          $dayOfWeek = $dayOfMonth = $monthName = '';
+
+          // Day of week
+          if ( array_key_exists( 2, $dateMatch ) ) {
+            $dayOfWeek = ucfirst( substr( $dateMatch[2], 0, 3 ) );
+          }
+
+          // Space between day of week and day of month
+          if ( array_key_exists( 4, $dateMatch ) ) {
+            $dayOfWeek .= ' ';
+          }
+
+          // Day of month
+          if ( array_key_exists( 5, $dateMatch ) ) {
+            $dayOfMonth .= $dateMatch[5];
+          }
+
+          // Space between day of month and month name
+          if ( array_key_exists( 7, $dateMatch ) ) {
+            $dayOfMonth .= ' ';
+          }
+
+          // Month
+          if ( array_key_exists( 8, $dateMatch ) ) {
+            $monthName = ucfirst( substr( $dateMatch[8], 0, 3 ) );
+          }
+
+          $issue = str_replace(
+            $dateMatch[1],
+            $dayOfWeek . $dayOfMonth . $monthName,
+            $issue
+          );
+
+        }
 
       }
 
