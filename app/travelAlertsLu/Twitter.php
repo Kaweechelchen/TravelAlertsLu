@@ -8,6 +8,7 @@
 
       $issue = $issue[ 'description' ];
 
+      $issue  = self::removeSpaces        ( $issue );
       $issue  = self::delayReadable       ( $issue );
       $issue  = self::dueToReadable       ( $issue );
       $issue  = self::shortenDate         ( $issue );
@@ -217,6 +218,31 @@
         }
 
       }
+
+      return $issue;
+
+    }
+
+    static public function removeSpaces ( $issue ) {
+
+      $punctuation_pattern = '(\. |, |! |\? )';
+
+      if ( preg_match_all( $punctuation_pattern, $issue, $punctuationMatches, PREG_SET_ORDER ) ){
+
+        foreach ( $punctuationMatches as $punctuationMatch) {
+
+          $issue = str_replace(
+            $punctuationMatch[0],
+            substr( $punctuationMatch[0], 0, 1 ),
+            $issue
+          );
+
+        }
+
+      }
+
+      // remove . if there is one at the end
+      $issue = trim( $issue, '.' );
 
       return $issue;
 
