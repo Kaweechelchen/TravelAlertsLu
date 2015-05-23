@@ -11,6 +11,7 @@
       $issue  = self::removeSpaces        ( $issue );
       $issue  = self::delayReadable       ( $issue );
       $issue  = self::dueToReadable       ( $issue );
+      var_dump( $issue );
       $issue  = self::shortenDate         ( $issue );
       $issue  = self::shortenTime         ( $issue );
       $issue  = self::departure           ( $issue );
@@ -159,7 +160,7 @@
 
     static public function shortenDate ( $issue ) {
 
-      $date_pattern = '/(((?:Mon(?:day)?|Tue(?:sday)?|Wed(?:nesday)?|Thu(?:rsday)?|Fri(?:day)?|Sat(?:urday)?|Sun(?:day)?|Sun(?:day)?)(?!\w))?(,)?( )?(\d{1,2})(st|nd|rd)?( )((?:Jan(?:uary)?|Feb(?:ruary)?|Mar(?:ch)?|Apr(?:il)?|May?|Jun(?:e)?|Jul(?:y)?|Aug(?:ust)?|Sep(?:tember)?|Oct(?:ober)?|Nov(?:ember)?|Dec(?:ember)?)(?!\w))( )?(\d{2,4})?)/i';
+      $date_pattern = '/(((?:Mon(?:day)?|Tue(?:sday)?|Wed(?:nesday)?|Thu(?:rsday)?|Fri(?:day)?|Sat(?:urday)?|Sun(?:day)?|Sun(?:day)?)(?!\w))?(,)?( )?(\d{1,2})?(st|nd|rd)?( )((?:Jan(?:uary)?|Feb(?:ruary)?|Mar(?:ch)?|Apr(?:il)?|May?|Jun(?:e)?|Jul(?:y)?|Aug(?:ust)?|Sep(?:tember)?|Oct(?:ober)?|Nov(?:ember)?|Dec(?:ember)?)(?!\w))( )?(\d{2,4})?)/i';
 
       if ( preg_match_all( $date_pattern, $issue, $dateMatches, PREG_SET_ORDER ) ){
 
@@ -180,6 +181,9 @@
 
           // Day of month
           if ( array_key_exists( 5, $dateMatch ) ) {
+            if ( $dateMatch[5] == '' && array_key_exists( 10, $dateMatch ) ) {
+              $dayOfMonth .= $dateMatch[10];
+            }
             $dayOfMonth .= $dateMatch[5];
           }
 
@@ -197,19 +201,22 @@
             $monthName = ucfirst( substr( $dateMatch[8], 0, 3 ) );
           }
 
-          if ( array_key_exists( 9, $dateMatch ) ) {
-            if ( array_key_exists( 10, $dateMatch ) ) {
-              $monthName .= '\'';
-            } else {
-              $monthName .= ' ';
-            }
-          }
+          if ( $dateMatch[5] != '' ) {
 
-          // year
-          if ( array_key_exists( 10, $dateMatch ) ) {
-            $year = ucfirst( substr( $dateMatch[10], -2 ) );
-          } else {
-            $year = '';
+            if ( array_key_exists( 9, $dateMatch ) ) {
+              if ( array_key_exists( 10, $dateMatch ) ) {
+                $monthName .= '\'';
+              } else {
+                $monthName .= ' ';
+              }
+            }
+
+            // year
+            if ( array_key_exists( 10, $dateMatch ) ) {
+              $year = ucfirst( substr( $dateMatch[10], -2 ) );
+            } else {
+              $year = '';
+            }
           }
 
           $issue = str_replace(
