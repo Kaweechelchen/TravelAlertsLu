@@ -133,7 +133,7 @@
 
     static public function dueToReadable ( $issue ) {
 
-      $dueTo_pattern = '/(((Due to )([\w\s]+)),( )?)/i';
+      $dueTo_pattern = '/(((Due to )([\w\s]+)),)/i';
 
       if ( preg_match( $dueTo_pattern, $issue, $dueToMatches ) ){
 
