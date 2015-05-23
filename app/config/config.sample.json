@@ -28,29 +28,7 @@
     }
   },
   "wordsToTag" : [
-    "cancelled",
-    "train",
-    "luxembourg",
-    "bus",
-    "delay",
-    "delays",
-    "esch/alzette",
-    "breakdown",
-    "longwy",
-    "metz', 'obstacle",
-    "technical",
-    "mersch",
-    "ettelbruck",
-    "bettembourg",
-    "rodange",
-    "dommeldange",
-    "walferdange",
-    "berchem",
-    "noertzange",
-    "diekirch",
-    "hollerich",
-    "dippach",
-    "petange"
+    "luxembourg", "esch", "longwy", "metz", "mersch", "ettelbruck", "bettembourg", "rodange", "dommeldange", "walferdange", "berchem", "noertzange", "diekirch", "hollerich", "dippach", "petange", "sandweiler", "trier", "wasserbillig", "cents", "bruxelles", "arlon", "volmerange", "thionville", "nancy", "oetrange", "pfaffenthal"
   ],
   "secondsToDiffer" : 21600
 }
