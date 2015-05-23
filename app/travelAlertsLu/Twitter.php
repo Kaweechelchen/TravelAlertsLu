@@ -95,7 +95,7 @@
 
           $time = $departureMatch[7] . ':' . $departureMatch[9];
 
-          $issue = str_replace( $departureMatch[0], $state . ' '. $station . ' ' . $time, $issue);
+          $issue = str_replace( $departureMatch[0], $state . ''. $station . ' ' . $time, $issue);
 
         }
 
