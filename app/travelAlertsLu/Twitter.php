@@ -81,7 +81,7 @@
 
     static public function departure( $issue ) {
 
-      $departure_pattern = '/((,)( )((scheduled )departure ((\d{1,2})(:|.)(\d{2}))))/s';
+      $departure_pattern = '/((,)( )((scheduled )departure ((\d{1,2})(:|.)(\d{2}))))/g';
 
       if ( preg_match( $departure_pattern, $issue, $departureMatches ) ){
 
@@ -132,7 +132,7 @@
 
     static public function dueToReadable ( $issue ) {
 
-      $dueTo_pattern = '/(((Due to )(\w*|\ *)),)/s';
+      $dueTo_pattern = '/(((Due to )([\w\s]+)),( )?)/s';
 
       if ( preg_match( $dueTo_pattern, $issue, $dueToMatches ) ){
 
