@@ -20,7 +20,6 @@
 
     }
 
-
     static public function getIssueId( $app, $line, $issue ) {
 
       // Prepare the statement to check if there already is an entry in the
