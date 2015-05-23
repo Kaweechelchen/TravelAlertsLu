@@ -32,7 +32,7 @@
     static public function tagTrain ( $issue ){
 
       return preg_replace_callback(
-        "/((the|train|the train)?( ))?([A-Z]{2,3}( )?\d+)/i",
+        "/((the|train|the train)?( ))?([A-Z]{2,3}( )?\d{4,})/i",
         function ( $matches ) {
           $train = str_replace( ' ', '', $matches[ 4 ] );
           return '#' . $train;
