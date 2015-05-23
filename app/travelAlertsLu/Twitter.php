@@ -114,22 +114,13 @@
 
     static public function delayReadable ( $issue ) {
 
-      $delay_pattern = '/.*((a delay of )(.*?)( ([a-z,A-Z]*?) is expected on )(.*?) trains)/s';
+      $delay_pattern = '/((,)?( )?((has )?a(n expected)? delay of (.*?) (minutes)?.*))/s';
 
       if ( preg_match( $delay_pattern, $issue, $delayMatches ) ){
 
-        $delay = str_replace(' ', '', $delayMatches[3]);
-        $issue = str_replace( $delayMatches[1], "#Delay:" . $delay . ' ' . $delayMatches[5], $issue);
-
-      }
-
-      $delay_pattern = '/((has )?a(n expected)? delay of (.*?) (minutes).*)/s';
-
-      if ( preg_match( $delay_pattern, $issue, $delayMatches ) ){
-
-        $issue = str_replace( $delayMatches[1], "Delay:" . $delay . '' . $delayMatches[4], $issue);
-        if ( strtolower( $delayMatches[5] ) == 'minutes' ) {
-          $issue .= 'mins';
+        $issue = str_replace( $delayMatches[1], "\nDelay:" . $delayMatches[7], $issue);
+        if ( strtolower( $delayMatches[8] ) == 'minutes' ) {
+          $issue .= 'm';
         }
 
       }
