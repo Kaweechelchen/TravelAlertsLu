@@ -81,7 +81,7 @@
 
     static public function departure( $issue ) {
 
-      $departure_pattern = '/((,)( )((scheduled )departure ((\d{1,2})(:|.)(\d{2}))))/g';
+      $departure_pattern = '/((,)( )((scheduled )departure ((\d{1,2})(:|.)(\d{2}))))/s';
 
       if ( preg_match( $departure_pattern, $issue, $departureMatches ) ){
 
@@ -115,7 +115,7 @@
 
     static public function delayReadable ( $issue ) {
 
-      $delay_pattern = '/((,)?( )?((has )?a(n expected)? delay of (.*?) (minutes)?.*))/s';
+      $delay_pattern = '/((,)?( )?((has )?a(n expected)? delay of (.*?) (minutes)?.*))/i';
 
       if ( preg_match( $delay_pattern, $issue, $delayMatches ) ){
 
@@ -132,7 +132,7 @@
 
     static public function dueToReadable ( $issue ) {
 
-      $dueTo_pattern = '/(((Due to )([\w\s]+)),( )?)/s';
+      $dueTo_pattern = '/(((Due to )([\w\s]+)),( )?)/i';
 
       if ( preg_match( $dueTo_pattern, $issue, $dueToMatches ) ){
 
