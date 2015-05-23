@@ -253,26 +253,24 @@
 
     static public function shortenTime ( $issue ) {
 
-      $time_pattern = '/((\()?((\d{1,2})((\.|:|h)))(\d{2})((am|pm)(\)))?)/';
+      $time_pattern = '/((\()?(\d{1,2})((\.|:|h)(\d{2}))?(am|pm)((\)))?)/';
 
       if ( preg_match_all( $time_pattern, $issue, $timeMatches, PREG_SET_ORDER ) ){
 
         foreach ( $timeMatches as $timeMatch) {
 
-          if ( array_key_exists( 6, $timeMatch ) ) {
-            if ( strtolower( $timeMatch[5] ) == 'pm' ) {
-              $hour = $$timeMatch[4] + 12;
-            } else {
-              $hour = $timeMatch[4];
-            }
+          if ( strtolower( $timeMatch[7] ) == 'pm' ) {
+            $hour = $timeMatch[3] + 12;
+          } else {
+            $hour = $timeMatch[3];
           }
 
           $hour     = $hour . ':';
           $minutes  = '00';
 
-          if ( array_key_exists( 5, $timeMatch ) ) {
-            if ( $timeMatch[5] != '' ) {
-              $minutes = $timeMatch[7];
+          if ( array_key_exists( 6, $timeMatch ) ) {
+            if ( $timeMatch[6] != '' ) {
+              $minutes = $timeMatch[6];
             }
           }
 
