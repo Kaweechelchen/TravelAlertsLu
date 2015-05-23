@@ -85,7 +85,7 @@
 
     static public function departure( $issue ) {
 
-      $departure_pattern = '/(scheduled )?(dep(?:arture)?|arr(?:ival)?)( )?(from|at)? ([\w\s]+)( at )((\d{1,2})(.|:|h)?(\d{2})(am|pm)?)/i';
+      $departure_pattern = '/(scheduled )?(dep(?:arture)?|arr(?:ival)?)( )?(from |at )?([\p{L}\s]+)?( at )?((\d{1,2})(\.|:|h)(\d{2})(am|pm)?)/i';
 
       if ( preg_match_all( $departure_pattern, $issue, $departureMatches, PREG_SET_ORDER ) ){
 
