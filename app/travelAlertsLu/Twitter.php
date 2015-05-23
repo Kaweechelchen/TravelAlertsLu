@@ -11,7 +11,6 @@
       $issue  = self::removeSpaces        ( $issue );
       $issue  = self::delayReadable       ( $issue );
       $issue  = self::dueToReadable       ( $issue );
-      var_dump( $issue );
       $issue  = self::shortenDate         ( $issue );
       $issue  = self::shortenTime         ( $issue );
       $issue  = self::departure           ( $issue );
@@ -21,11 +20,7 @@
 
       $tweets = self::splitToTweets       ( $issue );
 
-      echo '<pre>';
-
       print_r( $tweets );
-
-      exit;
 
     }
 
@@ -85,7 +80,7 @@
 
     static public function departure( $issue ) {
 
-      $departure_pattern = '/(scheduled )?(dep(?:arture)?|arr(?:ival)?)( )?(from |at )?([\p{L}\s]+)?( at )?((\d{1,2})(\.|:|h)(\d{2})(am|pm)?)/i';
+      $departure_pattern = '/(scheduled )?(departure|dep|arrival|arr)? ((from|at)? )?([\p{L}\s]+)? at ((\d{1,2})(\.|:|h)(\d{2})(am|pm)?)/i';
 
       if ( preg_match_all( $departure_pattern, $issue, $departureMatches, PREG_SET_ORDER ) ){
 
@@ -160,71 +155,63 @@
 
     static public function shortenDate ( $issue ) {
 
-      $date_pattern = '/(((?:Mon(?:day)?|Tue(?:sday)?|Wed(?:nesday)?|Thu(?:rsday)?|Fri(?:day)?|Sat(?:urday)?|Sun(?:day)?|Sun(?:day)?)(?!\p{L}))?(,)?( )?(\d{1,2})?(st|nd|rd)?( )((?:Jan(?:uary)?|Feb(?:ruary)?|Mar(?:ch)?|Apr(?:il)?|May?|Jun(?:e)?|Jul(?:y)?|Aug(?:ust)?|Sep(?:tember)?|Oct(?:ober)?|Nov(?:ember)?|Dec(?:ember)?)?(?!\p{L}))( )?(\d{2,4})?)/i';
+      $date_pattern = '/(Monday|Mon|Tuesday|Tue|Wednesday|Wed|Thursday|Thu|Friday|Fri|Saturday|Sat|Sunday|Sun)?((\ |,\ |,)(\d{1,2})(st|nd|rd|th)?)? (January|Jan|February|Feb|March|Mar|April|Apr|May|June|Jun|July|Jul|August|Aug|September|Sep|October|Oct|November|December|Dec)?(( )(\d{2,4}))?/i';
+
+      $rx_dayOfWeek   = 1;
+      $rx_dayOfMonth  = 4;
+      $rx_month       = 6;
+      $rx_year        = 9;
 
       if ( preg_match_all( $date_pattern, $issue, $dateMatches, PREG_SET_ORDER ) ){
 
         foreach ( $dateMatches as $dateMatch) {
 
-          // initialize date variables
-          $dayOfWeek = $dayOfMonth = $monthName = '';
-
-          // Day of week
-          if ( array_key_exists( 2, $dateMatch ) ) {
-            $dayOfWeek = ucfirst( substr( $dateMatch[2], 0, 3 ) );
+          if ( sizeof( $dateMatch ) < 2 ) {
+            continue;
           }
 
-          // Space between day of week and day of month
-          if ( array_key_exists( 4, $dateMatch ) ) {
-            $dayOfWeek .= ' ';
+          // initialize date variables
+          $dayOfMonth = $year  = '';
+          $dayOfWeek = $monthName = ' ';
+
+          // Day of week
+          if ( array_key_exists( $rx_dayOfWeek, $dateMatch ) ) {
+            if ( $dateMatch[ $rx_dayOfWeek ] != '' ) {
+              $dayOfWeek = ucfirst( substr( $dateMatch[ $rx_dayOfWeek ], 0, 3 ) );
+              $dayOfWeek .= ' ';
+            }
           }
 
           // Day of month
-          if ( array_key_exists( 5, $dateMatch ) ) {
-            if ( $dateMatch[5] == '' && array_key_exists( 10, $dateMatch ) ) {
-              $dayOfMonth .= $dateMatch[10];
+          if ( array_key_exists( $rx_dayOfMonth, $dateMatch ) ) {
+            if ( $dateMatch[ $rx_dayOfMonth ] == '' && array_key_exists( $rx_year, $dateMatch ) ) {
+              $dayOfMonth .= $dateMatch[ $rx_year ];
             }
-            $dayOfMonth .= $dateMatch[5];
-          }
-
-          // Space between day of month and month name
-          if ( array_key_exists( 7, $dateMatch ) ) {
-            if ( array_key_exists( 8, $dateMatch ) ) {
-              if ( $dateMatch[8] != '' ) {
-                $dayOfMonth .= '.';
-              } else {
-                $dayOfMonth .= ' ';
-              }
-            } else {
-              $dayOfMonth .= ' ';
-            }
+            $dayOfMonth .= $dateMatch[ $rx_dayOfMonth ];
           }
 
           // Month
-          if ( array_key_exists( 8, $dateMatch ) ) {
-            $monthName = ucfirst( substr( $dateMatch[8], 0, 3 ) );
+          if ( array_key_exists( $rx_month, $dateMatch ) ) {
+            $monthName = '.' . ucfirst( substr( $dateMatch[ $rx_month ], 0, 3 ) );
           }
 
-          if ( $dateMatch[5] != '' ) {
-
-            if ( array_key_exists( 9, $dateMatch ) ) {
-              if ( array_key_exists( 10, $dateMatch ) ) {
-                $monthName .= '\'';
-              } else {
-                $monthName .= ' ';
-              }
-            }
-
-            // year
-            if ( array_key_exists( 10, $dateMatch ) ) {
-              $year = ucfirst( substr( $dateMatch[10], -2 ) );
-            } else {
-              $year = '';
+          // Space between day of month and month name
+          if ( array_key_exists( $rx_month, $dateMatch ) && array_key_exists( $rx_year, $dateMatch ) ) {
+            if ( $dateMatch[ $rx_month ] != '' && $dateMatch[ $rx_year ] != '' ) {
+              $monthName .= '\'';
             }
           }
+
+          // Day of month
+          if ( array_key_exists( $rx_dayOfMonth, $dateMatch ) ) {
+            if ( $dateMatch[ $rx_dayOfMonth ] != '' && array_key_exists( $rx_year, $dateMatch ) ) {
+              $year = ucfirst( substr( $dateMatch[ $rx_year ], -2 ) );
+            }
+          }
+
 
           $issue = str_replace(
-            $dateMatch[1],
+            $dateMatch[0],
             $dayOfWeek . $dayOfMonth . $monthName . $year,
             $issue
           );
@@ -264,36 +251,61 @@
 
     static public function shortenTime ( $issue ) {
 
-      $time_pattern = '/((\()?(\d{1,2})((\.|:|h)(\d{2}))?(am|pm)((\)))?)/';
+      $time_pattern = '/(\()?(\d{1,2})((\.|:|h)(\d{1,2})(am|pm)?(\))?)/';
+
+      $rx_hour    = 2;
+      $rx_minutes = 5;
 
       if ( preg_match_all( $time_pattern, $issue, $timeMatches, PREG_SET_ORDER ) ){
 
         foreach ( $timeMatches as $timeMatch) {
 
-          if ( strtolower( $timeMatch[7] ) == 'pm' ) {
-            $hour = $timeMatch[3] + 12;
-          } else {
-            $hour = $timeMatch[3];
-          }
+          $hour = $timeMatch[ $rx_hour ];
 
-          $hour     = $hour . ':';
           $minutes  = '00';
 
-          if ( array_key_exists( 6, $timeMatch ) ) {
-            if ( $timeMatch[6] != '' ) {
-              $minutes = $timeMatch[6];
+          if ( array_key_exists( $rx_minutes, $timeMatch ) ) {
+            if ( $timeMatch[ $rx_minutes ] != '' ) {
+              $minutes = $timeMatch[ $rx_minutes ];
             }
           }
 
           $issue = str_replace(
             $timeMatch[0],
-            $hour . $minutes,
+            $hour . ':' . $minutes,
             $issue
           );
 
         }
 
       }
+
+      $time_pattern = '/(\((\d{1,2})(am|pm)\))/';
+
+      $rx_hour    = 2;
+      $rx_ampm    = 3;
+
+      if ( preg_match_all( $time_pattern, $issue, $timeMatches, PREG_SET_ORDER ) ){
+
+        foreach ( $timeMatches as $timeMatch) {
+
+          if ( $timeMatch[ $rx_ampm ] == 'am' ) {
+            $hour = $timeMatch[ $rx_hour ];
+          } else {
+            $hour = $timeMatch[ $rx_hour ] + 12;
+          }
+
+          $issue = str_replace(
+            $timeMatch[0],
+            $hour . ':00',
+            $issue
+          );
+
+        }
+
+      }
+
+
 
       return $issue;
 
