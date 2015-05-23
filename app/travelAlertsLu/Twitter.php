@@ -84,7 +84,7 @@
 
     static public function departure( $issue ) {
 
-      $departure_pattern = '/(scheduled )?(dep(?:arture)?|arr(?:ival)?)( )?(from|at)? ([\w\s]+)( at )(\d{1,2})(.|:)?(\d{2})/i';
+      $departure_pattern = '/(scheduled )?(dep(?:arture)?|arr(?:ival)?)( )?(from|at)? ([\w\s]+)( at )((\d{1,2})(.|:|h)?(\d{2})(am|pm)?)/i';
 
       if ( preg_match_all( $departure_pattern, $issue, $departureMatches, PREG_SET_ORDER ) ){
 
@@ -94,7 +94,7 @@
 
           $station = ucfirst( $departureMatch[5] );
 
-          $time = $departureMatch[7] . ':' . $departureMatch[9];
+          $time = $departureMatch[7];
 
           $issue = str_replace( $departureMatch[0], $state . ''. $station . ' ' . $time, $issue);
 
@@ -253,19 +253,17 @@
 
     static public function shortenTime ( $issue ) {
 
-      $time_pattern = '/(\()?(\d{1,2})((.|:|h)(\d{2}))?(am|pm)?(\))/';
+      $time_pattern = '/((\()?((\d{1,2})((\.|:|h)))(\d{2})((am|pm)(\)))?)/';
 
       if ( preg_match_all( $time_pattern, $issue, $timeMatches, PREG_SET_ORDER ) ){
-
-        print_r( $timeMatches );
 
         foreach ( $timeMatches as $timeMatch) {
 
           if ( array_key_exists( 6, $timeMatch ) ) {
             if ( strtolower( $timeMatch[5] ) == 'pm' ) {
-              $hour = $$timeMatch[2] + 12;
+              $hour = $$timeMatch[4] + 12;
             } else {
-              $hour = $timeMatch[2];
+              $hour = $timeMatch[4];
             }
           }
 
@@ -274,7 +272,7 @@
 
           if ( array_key_exists( 5, $timeMatch ) ) {
             if ( $timeMatch[5] != '' ) {
-              $minutes = $timeMatch[5];
+              $minutes = $timeMatch[7];
             }
           }
 
