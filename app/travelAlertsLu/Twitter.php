@@ -190,7 +190,11 @@
           // Space between day of month and month name
           if ( array_key_exists( 7, $dateMatch ) ) {
             if ( array_key_exists( 8, $dateMatch ) ) {
-              $dayOfMonth .= '.';
+              if ( $dateMatch[8] != '' ) {
+                $dayOfMonth .= '.';
+              } else {
+                $dayOfMonth .= ' ';
+              }
             } else {
               $dayOfMonth .= ' ';
             }
