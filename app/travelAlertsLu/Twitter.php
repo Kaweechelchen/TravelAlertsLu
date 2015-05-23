@@ -12,6 +12,7 @@
       $issue  = self::delayReadable       ( $issue );
       $issue  = self::dueToReadable       ( $issue );
       $issue  = self::shortenDate         ( $issue );
+      $issue  = self::shortenTime         ( $issue );
       $issue  = self::departure           ( $issue );
       $issue  = self::tagTrain            ( $issue );
       $issue  = self::tagIssue            ( $issue );
@@ -207,6 +208,8 @@
           // year
           if ( array_key_exists( 10, $dateMatch ) ) {
             $year = ucfirst( substr( $dateMatch[10], -2 ) );
+          } else {
+            $year = '';
           }
 
           $issue = str_replace(
@@ -243,6 +246,47 @@
 
       // remove . if there is one at the end
       $issue = trim( $issue, '.' );
+
+      return $issue;
+
+    }
+
+    static public function shortenTime ( $issue ) {
+
+      $time_pattern = '/(\()?(\d{1,2})((.|:|h)(\d{2}))?(am|pm)?(\))/';
+
+      if ( preg_match_all( $time_pattern, $issue, $timeMatches, PREG_SET_ORDER ) ){
+
+        print_r( $timeMatches );
+
+        foreach ( $timeMatches as $timeMatch) {
+
+          if ( array_key_exists( 6, $timeMatch ) ) {
+            if ( strtolower( $timeMatch[5] ) == 'pm' ) {
+              $hour = $$timeMatch[2] + 12;
+            } else {
+              $hour = $timeMatch[2];
+            }
+          }
+
+          $hour     = $hour . ':';
+          $minutes  = '00';
+
+          if ( array_key_exists( 5, $timeMatch ) ) {
+            if ( $timeMatch[5] != '' ) {
+              $minutes = $timeMatch[5];
+            }
+          }
+
+          $issue = str_replace(
+            $timeMatch[0],
+            $hour . $minutes,
+            $issue
+          );
+
+        }
+
+      }
 
       return $issue;
 
