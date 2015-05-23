@@ -81,11 +81,21 @@
 
     static public function departure( $issue ) {
 
-      $departure_pattern = '/((,)( )((scheduled )departure ((\d{1,2})(:|.)(\d{2}))))/s';
+      $departure_pattern = '/(scheduled )?(dep(?:arture)?|arr(?:ival)?)( )?(from|at)? ([\w\s]+)( at )(\d{1,2})(.|:)?(\d{2})/i';
 
-      if ( preg_match( $departure_pattern, $issue, $departureMatches ) ){
+      if ( preg_match_all( $departure_pattern, $issue, $departureMatches, PREG_SET_ORDER ) ){
 
-        $issue = str_replace( $departureMatches[1], ' dep.' . $departureMatches[7] . ':' . $departureMatches[9], $issue);
+        foreach ( $departureMatches as $departureMatch) {
+
+          $state = ucfirst( substr( $departureMatch[2], 0, 3 ) ) . '.';
+
+          $station = ucfirst( $departureMatch[5] );
+
+          $time = $departureMatch[7] . ':' . $departureMatch[9];
+
+          $issue = str_replace( $departureMatch[0], $state . ' '. $station . ' ' . $time, $issue);
+
+        }
 
       }
 
