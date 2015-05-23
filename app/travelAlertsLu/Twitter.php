@@ -29,9 +29,8 @@
     static public function tagTrain ( $issue ){
 
       return preg_replace_callback(
-        "([A-Z]{2,3} \d{4})",
         function ( $matches ) {
-          $train = str_replace( ' ', '', $matches[ 0 ] );
+          $train = str_replace( ' ', '', $matches[ 4 ] );
           return '#' . $train;
         },
         $issue
