@@ -6,7 +6,7 @@
 
     static public function generateIssueTweets( $app, $issue, $line ) {
 
-      $issue = $issue[ 'description' ];
+      $issue = '#' . $line . "\n" . $issue[ 'title' ] . "\n" . $issue[ 'description' ];
 
       $issue  = self::removeSpaces        ( $issue );
       $issue  = self::delayReadable       ( $issue );
