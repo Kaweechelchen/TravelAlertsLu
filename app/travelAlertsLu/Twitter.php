@@ -82,15 +82,20 @@
 
       $departure_pattern = '/(scheduled )?(departure|dep|arrival|arr)? ((from|at)? )?([\p{L}\s]+)? at ((\d{1,2})(\.|:|h)(\d{2})(am|pm)?)/i';
 
+      $rx_state   = 2;
+      $rx_station = 5;
+      $rx_hour    = 7;
+      $rx_minutes = 9;
+
       if ( preg_match_all( $departure_pattern, $issue, $departureMatches, PREG_SET_ORDER ) ){
 
         foreach ( $departureMatches as $departureMatch) {
 
-          $state = ucfirst( substr( $departureMatch[2], 0, 3 ) ) . '.';
+          $state = ucfirst( substr( $departureMatch[ $rx_state ], 0, 3 ) ) . '.';
 
-          $station = ucfirst( $departureMatch[5] );
+          $station = ucfirst( $departureMatch[ $rx_station ] );
 
-          $time = $departureMatch[7];
+          $time = $departureMatch[ $rx_hour ] . ':' . $departureMatch[ $rx_minutes ];
 
           $issue = str_replace( $departureMatch[0], $state . ''. $station . ' ' . $time, $issue);
 
