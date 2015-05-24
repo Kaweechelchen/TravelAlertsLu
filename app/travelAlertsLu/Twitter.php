@@ -109,15 +109,23 @@
 
     static public function splitToTweets( $issue ) {
 
-      $issue = wordwrap( $issue, 134, 'NEW_TWEET');
+      if ( strlen( $issue ) < 140 ) {
 
-      $tweets = explode( 'NEW_TWEET', $issue );
+        $tweets[] = $issue;
 
-      foreach ( $tweets as $key => $tweet ) {
+      } else {
 
-        if ( sizeof( $tweets ) > 1 ) {
+        $issue = wordwrap( $issue, 135, 'NEW_TWEET');
 
-          $tweets[ $key ] = $tweet . ' (' . ( $key + 1 ) . '/' . sizeof( $tweets ) . ')' ;
+        $tweets = explode( 'NEW_TWEET', $issue );
+
+        foreach ( $tweets as $key => $tweet ) {
+
+          if ( sizeof( $tweets ) > 1 ) {
+
+            $tweets[ $key ] = $tweet . '(' . ( $key + 1 ) . '/' . sizeof( $tweets ) . ')' ;
+
+          }
 
         }
 
