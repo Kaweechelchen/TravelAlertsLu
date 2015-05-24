@@ -2,9 +2,9 @@
 
   namespace travelAlertsLu;
   use Silex\Application;
-  class Twitter {
+  class PrepareTweets {
 
-    static public function generateIssueTweets( $app, $issue, $line ) {
+    static public function generateTweets( $app, $issue, $line ) {
 
       $issue = '#' . $line . "\n" . $issue[ 'title' ] . "\n" . $issue[ 'description' ];
 
