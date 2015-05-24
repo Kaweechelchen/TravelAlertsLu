@@ -7,7 +7,7 @@
     static public function generateTweets( $app, $issue, $line ) {
 
       $title       = $issue[ 'title' ];
-      $description = $issue[ 'description' ]
+      $description = $issue[ 'description' ];
 
       if ( $line == 'global' ) {
         $issue = '';
