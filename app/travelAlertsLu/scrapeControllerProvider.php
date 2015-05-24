@@ -20,8 +20,6 @@
           json_encode( $lineIssues )
         );
 
-        //$lineIssues = Issues::getCurrent( $app );
-
         $count = 0;
 
         foreach ( $lineIssues as $line => $issues ) {
