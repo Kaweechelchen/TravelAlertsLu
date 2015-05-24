@@ -191,7 +191,6 @@
           if ( array_key_exists( $rx_dayOfWeek, $dateMatch ) ) {
             if ( $dateMatch[ $rx_dayOfWeek ] != '' ) {
               $dayOfWeek = ucfirst( substr( $dateMatch[ $rx_dayOfWeek ], 0, 3 ) );
-              $dayOfWeek .= ' ';
             }
           }
 
@@ -201,6 +200,10 @@
               $dayOfMonth .= $dateMatch[ $rx_year ];
             }
             $dayOfMonth .= $dateMatch[ $rx_dayOfMonth ];
+
+            if ( $dateMatch[ $rx_dayOfWeek ] != '' ) {
+              $dayOfWeek .= ' ';
+            }
           }
 
           // Month
@@ -210,7 +213,7 @@
 
           // Space between day of month and month name
           if ( array_key_exists( $rx_month, $dateMatch ) && array_key_exists( $rx_year, $dateMatch ) ) {
-            if ( $dateMatch[ $rx_month ] != '' && $dateMatch[ $rx_year ] != '' ) {
+            if ( $dateMatch[ $rx_month ] != '' && $dateMatch[ $rx_year ] != '' && $dateMatch[ $rx_dayOfWeek ] != '' ) {
               $monthName .= '\'';
             }
           }
