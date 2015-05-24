@@ -4,7 +4,7 @@
   use Silex\Application;
   class Twitter {
 
-    static public function generateIssueTweets( $app, $issue ) {
+    static public function generateIssueTweets( $app, $issue, $line ) {
 
       $issue = $issue[ 'description' ];
 

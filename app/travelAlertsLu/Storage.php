@@ -4,9 +4,9 @@
   use Silex\Application;
   class Storage {
 
-    static public function saveIssue( $app, $line, $issue ) {
+    static public function saveIssue( $app, $issue, $line ) {
 
-      $issueId = self::getIssueId( $app, $line, $issue );
+      $issueId = self::getIssueId( $app, $issue, $line );
 
       if ( $issueId ) {
 
@@ -14,13 +14,13 @@
 
       } else {
 
-        return self::insertIssue( $app, $line, $issue );
+        return self::insertIssue( $app, $issue, $line );
 
       }
 
     }
 
-    static public function getIssueId( $app, $line, $issue ) {
+    static public function getIssueId( $app, $issue, $line ) {
 
       // Prepare the statement to check if there already is an entry in the
       // database for the current issue
@@ -50,7 +50,7 @@
 
     }
 
-    static public function insertIssue( $app, $line, $issue ) {
+    static public function insertIssue( $app, $issue, $line ) {
 
       // insert the issue to the database if no id was found for it (aka. new
       // issue)
@@ -65,7 +65,7 @@
         )
       );
 
-      twitter::generateIssueTweets( $app, $issue );
+      twitter::generateIssueTweets( $app, $issue, $line );
 
       // return the id of the issue that we've just inserted
       return $app['db']->lastInsertId();

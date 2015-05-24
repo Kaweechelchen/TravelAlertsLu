@@ -28,7 +28,7 @@
 
           foreach ( $issues as $issue ) {
 
-            Storage::saveIssue( $app, $line, $issue );
+            Storage::saveIssue( $app, $issue, $line );
 
             $count++;
 
