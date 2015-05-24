@@ -13,14 +13,14 @@
 
       $ctr->get( '/', function( Application $app ) {
 
-        /*$lineIssues = Issues::getLineIssues( $app );
+        $lineIssues = Issues::getLineIssues( $app );
 
         file_put_contents(
           'current.json',
           json_encode( $lineIssues )
-        );*/
+        );
 
-        $lineIssues = Issues::getCurrent( $app );
+        //$lineIssues = Issues::getCurrent( $app );
 
         $count = 0;
 
