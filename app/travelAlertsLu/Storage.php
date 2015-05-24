@@ -61,6 +61,8 @@
           'title'       =>  $issue[ 'title'       ],
           'description' =>  $issue[ 'description' ],
           'pubDate'     =>  $issue[ 'pubDate'     ],
+          'start'       =>  $issue[ 'start'       ],
+          'end'         =>  $issue[ 'end'         ],
           'guid'        =>  $issue[ 'guid'        ]
         )
       );
