@@ -242,7 +242,7 @@
 
     static public function removeSpaces ( $issue ) {
 
-      $punctuation_pattern = '(\. |, |! |\? )';
+      $punctuation_pattern = '(\. |, |! |\? |\: |\; )';
 
       if ( preg_match_all( $punctuation_pattern, $issue, $punctuationMatches, PREG_SET_ORDER ) ){
 
