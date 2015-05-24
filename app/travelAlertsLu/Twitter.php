@@ -20,7 +20,7 @@
 
       $tweets = self::splitToTweets       ( $issue );
 
-      print_r( $tweets );
+      return $tweets;
 
     }
 
