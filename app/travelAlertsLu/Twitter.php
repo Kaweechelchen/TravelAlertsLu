@@ -70,7 +70,7 @@
         || strpos( $issue, 'Thionville' ) !== false
         || strpos( $issue, 'Longwy'     ) !== false ){
 
-        $issue .= "\n/cc @TER_Metz_Lux";
+        $issue .= "\n@TER_Metz_Lux";
 
       }
 
