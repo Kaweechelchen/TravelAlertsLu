@@ -13,13 +13,7 @@
 
       $ctr->get( '/', function( Application $app ) {
 
-        $CFLData  = IssueHelpers::getIssuesCleaned ( $app, 15, 'DESC' );
-        return $app['twig']->render(
-          'base.twig',
-          array(
-            'issues' => $CFLData
-          )
-        );
+        return $app->redirect( 'https://twitter.com/TravelAlertsLu' );
 
       });
 
