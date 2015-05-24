@@ -296,7 +296,7 @@
 
       }
 
-      $time_pattern = '/(\((\d{1,2})(am|pm)\))/';
+      $time_pattern = '/(\()?(\d{1,2})(am|pm)(\))?/';
 
       $rx_hour    = 2;
       $rx_ampm    = 3;
@@ -307,6 +307,9 @@
 
           if ( $timeMatch[ $rx_ampm ] == 'am' ) {
             $hour = $timeMatch[ $rx_hour ];
+            if ( $hour == 12 ) {
+              $hour = 0;
+            }
           } else {
             $hour = $timeMatch[ $rx_hour ] + 12;
           }
