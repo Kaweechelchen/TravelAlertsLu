@@ -67,7 +67,9 @@
         )
       );
 
-      PrepareTweets::generateTweets( $app, $issue, $line );
+      $tweets = PrepareTweets::generateTweets( $app, $issue, $line );
+
+      Twitter::broadcastTweets( $app, $tweets, $issue[ 'guid' ] );
 
       // return the id of the issue that we've just inserted
       return $app['db']->lastInsertId();
