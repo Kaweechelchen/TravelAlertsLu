@@ -6,13 +6,16 @@
 
     static public function generateTweets( $app, $issue, $line ) {
 
+      $title       = $issue[ 'title' ];
+      $description = $issue[ 'description' ]
+
       if ( $line == 'global' ) {
         $issue = '';
       } else {
         $issue = '#' . $line . "\n";
       }
 
-      $issue .= $issue[ 'title' ] . "\n" . $issue[ 'description' ];
+      $issue .= $title . "\n" . $description;
 
       $issue  = self::removeSpaces        ( $issue );
       $issue  = self::delayReadable       ( $issue );
