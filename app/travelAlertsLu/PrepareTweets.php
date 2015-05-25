@@ -370,8 +370,6 @@
           $replacement,
           $issue
         );
-        var_dump( $pattern, $issue );
-        //str_replace( $needle, $replacement, $issue);
       }
 
       return $issue;
