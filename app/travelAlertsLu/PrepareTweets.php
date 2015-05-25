@@ -356,13 +356,14 @@
         'Due to signalling problems'        =>  'Signal failure',
         'Due to catenary works, '           =>  'Catenary works:',
         'Due to operational problems'       =>  'operational pbs.',
-        'the section of the line between'   =>  'section',
+        'the section of the line between'   =>  'section between',
         'train traffic'                     =>  'traffic',
         'train service'                     =>  'service',
-        '–'                                 =>  "➡️",
-        'SNCB'                              =>  "@SNCB",
-        'SNCF'                              =>  "@SNCF",
-        'DB'                                =>  "@DB_Bahn"
+        '–'                                 =>  '➡️',
+        'SNCB'                              =>  '@SNCB',
+        'SNCF'                              =>  '@SNCF',
+        'DB'                                =>  '@DB_Bahn',
+        'Trains will be replaced by buses'  =>  'bus replacement'
       );
 
       foreach ( $replaceStrings as $pattern => $replacement ) {
