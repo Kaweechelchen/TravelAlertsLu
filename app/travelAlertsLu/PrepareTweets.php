@@ -349,7 +349,7 @@
 
       // Replacing strings with shortder ones
       $replaceStrings = array(
-        '(Lux[\p{L}]+)' =>  'LUX'
+        'Lux[\p{L}]+' =>  'LUX'
       );
 
       foreach ( $replaceStrings as $pattern => $replacement ) {
