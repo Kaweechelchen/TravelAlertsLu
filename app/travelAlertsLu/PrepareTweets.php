@@ -18,6 +18,7 @@
       $issue .= $title . "\n" . $description;
 
       $issue  = self::removeSpaces        ( $issue );
+      $issue  = self::removeCFLStrings    ( $issue );
       $issue  = self::delayReadable       ( $issue );
       $issue  = self::dueToReadable       ( $issue );
       $issue  = self::shortenDate         ( $issue );
@@ -339,6 +340,27 @@
       }
 
 
+
+      return $issue;
+
+    }
+
+    public static function removeCFLStrings( $issue ) {
+
+      // Replacing strings with shortder ones
+      $replaceStrings = array(
+        '(Lux[\p{L}]+)' =>  'LUX'
+      );
+
+      foreach ( $replaceStrings as $pattern => $replacement ) {
+        $issue = preg_replace(
+          '/' . $pattern . '/i',
+          $replacement,
+          $issue
+        );
+        var_dump( $pattern, $issue );
+        //str_replace( $needle, $replacement, $issue);
+      }
 
       return $issue;
 
