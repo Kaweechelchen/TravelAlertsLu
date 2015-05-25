@@ -17,7 +17,7 @@
 
       $issue .= $title . "\n" . $description;
 
-      $issue  = self::replaceCFLStrings    ( $issue );
+      $issue  = self::replaceCFLStrings   ( $issue );
       $issue  = self::removeCFLStrings    ( $issue );
       $issue  = self::removeSpaces        ( $issue );
       $issue  = self::delayReadable       ( $issue );
