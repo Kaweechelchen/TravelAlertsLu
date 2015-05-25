@@ -396,7 +396,6 @@
           '',
           $issue
         );
-        var_dump( $pattern, $issue );
       }
 
       return $issue;
