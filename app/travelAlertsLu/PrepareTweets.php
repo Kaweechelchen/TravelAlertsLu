@@ -18,6 +18,7 @@
       $issue .= $title . "\n" . $description;
 
       $issue  = self::replaceCFLStrings    ( $issue );
+      $issue  = self::removeCFLStrings    ( $issue );
       $issue  = self::removeSpaces        ( $issue );
       $issue  = self::delayReadable       ( $issue );
       $issue  = self::dueToReadable       ( $issue );
@@ -372,6 +373,30 @@
           $replacement,
           $issue
         );
+      }
+
+      return $issue;
+
+    }
+
+    public static function removeCFLStrings( $issue ) {
+
+      // Replacing strings with shortder ones
+      $removeStrings = array(
+        'Delays and cancellations may still be expected',
+        'FURTHER INFORMATION AS SOON AS POSSIBLE',
+        'Due to works, ',
+        'completely ',
+        '(\()?and vice versa(\))?( )?'
+      );
+
+      foreach ( $removeStrings as $pattern ) {
+        $issue = preg_replace(
+          '/' . $pattern . '/i',
+          '',
+          $issue
+        );
+        var_dump( $pattern, $issue );
       }
 
       return $issue;
