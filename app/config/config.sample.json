@@ -17,13 +17,13 @@
   "XMLAPI" : {
     "base" : "http://mobile.cfl.lu/bin/help.exe/enl?tpl=rss_feed_",
     "lines" : {
-      "line10" : "line_10",
-      "line30" : "line_30",
-      "line50" : "line_50",
-      "line60" : "line_60",
-      "line70" : "line_70",
-      "line80" : "line_80",
-      "line90" : "line_90",
+      "CFL10"  : "line_10",
+      "CFL30"  : "line_30",
+      "CFL50"  : "line_50",
+      "CFL60"  : "line_60",
+      "CFL70"  : "line_70",
+      "CFL80"  : "line_80",
+      "CFL90"  : "line_90",
       "global" : "global"
     }
   },
