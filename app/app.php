@@ -39,6 +39,10 @@
 
     });
 
+    if ( $app[ 'debug' ] ) {
+        echo '<pre>';
+    }
+
     $app->mount( '/', new travelAlertsLu\viewControllerProvider() );
     $app->mount( '/api', new travelAlertsLu\apiControllerProvider() );
     $app->mount( '/scrape', new travelAlertsLu\scrapeControllerProvider() );

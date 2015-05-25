@@ -36,11 +36,18 @@
         $postfields[ 'in_reply_to_status_id' ] = $replyTo;
       }
 
-      $twitterResult = json_decode(
-        $app[ 'tw' ]->buildOauth( $url, $requestMethod )
-                    ->setPostfields( $postfields )
-                    ->performRequest()
-      , true);
+      if ( $app[ 'debug' ]) {
+        var_dump( $tweet );
+        $twitterResult = '';
+      } else {
+
+        $twitterResult = json_decode(
+          $app[ 'tw' ]->buildOauth( $url, $requestMethod )
+                      ->setPostfields( $postfields )
+                      ->performRequest()
+        , true);
+
+      }
 
       if ( array_key_exists( 'id', $twitterResult ) ) {
         return $twitterResult[ 'id' ];
