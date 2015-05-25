@@ -18,7 +18,7 @@
       $issue .= $title . "\n" . $description;
 
       $issue  = self::removeSpaces        ( $issue );
-      $issue  = self::removeCFLStrings    ( $issue );
+      $issue  = self::replaceCFLStrings    ( $issue );
       $issue  = self::delayReadable       ( $issue );
       $issue  = self::dueToReadable       ( $issue );
       $issue  = self::shortenDate         ( $issue );
@@ -345,11 +345,23 @@
 
     }
 
-    public static function removeCFLStrings( $issue ) {
+    public static function replaceCFLStrings( $issue ) {
 
       // Replacing strings with shortder ones
       $replaceStrings = array(
-        'Lux[\p{L}]+' =>  'LUX'
+        '(Lux[\p{L}]+)'                     =>  'LUX',
+        'p[\p{L}]+form'                     =>  'platform',
+        'Due to failure of the signal box'  =>  'Signal failure',
+        'Due to signalling problems'        =>  'Signal failure',
+        'Due to catenary works, '           =>  'Catenary works:',
+        'Due to operational problems'       =>  'operational pbs.',
+        'the section of the line between'   =>  'section',
+        'train traffic'                     =>  'traffic',
+        'train service'                     =>  'service',
+        '–'                                 =>  "➡️",
+        'SNCB'                              =>  "@SNCB",
+        'SNCF'                              =>  "@SNCF",
+        'DB'                                =>  "@DB_Bahn"
       );
 
       foreach ( $replaceStrings as $pattern => $replacement ) {
