@@ -51,7 +51,7 @@
     }
 
     static public function insertIssue( $app, $issue, $line ) {
-      /*
+
       // insert the issue to the database if no id was found for it (aka. new
       // issue)
       $app['db']->insert(
@@ -65,15 +65,14 @@
           'end'         =>  $issue[ 'end'         ],
           'guid'        =>  $issue[ 'guid'        ]
         )
-      );*/
+      );
 
       $tweets = PrepareTweets::generateTweets( $app, $issue, $line );
 
       Twitter::broadcastTweets( $app, $tweets, $issue[ 'guid' ] );
 
       // return the id of the issue that we've just inserted
-      //return $app['db']->lastInsertId();
-      return 1;
+      return $app['db']->lastInsertId();
 
     }
 
