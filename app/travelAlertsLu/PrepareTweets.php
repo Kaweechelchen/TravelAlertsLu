@@ -17,8 +17,8 @@
 
       $issue .= $title . "\n" . $description;
 
-      $issue  = self::removeSpaces        ( $issue );
       $issue  = self::replaceCFLStrings    ( $issue );
+      $issue  = self::removeSpaces        ( $issue );
       $issue  = self::delayReadable       ( $issue );
       $issue  = self::dueToReadable       ( $issue );
       $issue  = self::shortenDate         ( $issue );
@@ -275,6 +275,7 @@
 
       // remove . if there is one at the end
       $issue = trim( $issue, '.' );
+      $issue = trim( $issue, ' ' );
 
       return $issue;
 
