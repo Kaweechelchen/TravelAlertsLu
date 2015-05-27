@@ -389,9 +389,6 @@
         'train traffic'                     =>  'traffic',
         'train service'                     =>  'service',
         '–'                                 =>  '➡️',
-        'SNCB'                              =>  '@SNCB',
-        'SNCF'                              =>  '@SNCF',
-        'DB'                                =>  '@DB_Bahn',
         'Trains will be replaced by buses'  =>  'bus replacement'
       );
 
