@@ -26,7 +26,7 @@
       $issue  = self::removeCFLStrings    ( $issue );
       $issue  = self::removeSpaces        ( $issue );
       $issue  = self::delayReadable       ( $issue );
-      $issue  = self::dueToReadable       ( $issue );
+      //$issue  = self::dueToReadable       ( $issue );
       $issue  = self::shortenDate         ( $issue );
       $issue  = self::shortenTime         ( $issue );
       $issue  = self::departure           ( $issue );
