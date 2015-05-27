@@ -141,7 +141,7 @@
 
           $time = $departureMatch[ $rx_hour ] . ':' . $departureMatch[ $rx_minutes ];
 
-          $issue = str_replace( $departureMatch[0], $state . ''. $station . ' ' . $time, $issue);
+          $issue = str_replace( $departureMatch[0], $state . ' '. $station . ' ' . $time, $issue);
 
         }
 
@@ -181,12 +181,12 @@
 
     static public function delayReadable ( $issue ) {
 
-      $delay_pattern = '/((,)?( )?((has )?a(n expected)? delay of (.*?) (minutes)?.*))/i';
+      $delay_pattern = '/((,)?( )?((has )?a(n expected)? delay of (\d+-)?(\d+) (minutes)?.*))/i';
 
       if ( preg_match( $delay_pattern, $issue, $delayMatches ) ){
 
-        $issue = str_replace( $delayMatches[1], "\nDelay:" . $delayMatches[7], $issue);
-        if ( strtolower( $delayMatches[8] ) == 'minutes' ) {
+        $issue = str_replace( $delayMatches[1], "\nexp. delay: " . $delayMatches[8], $issue);
+        if ( strtolower( $delayMatches[9] ) == 'minutes' ) {
           $issue .= 'm';
         }
 
