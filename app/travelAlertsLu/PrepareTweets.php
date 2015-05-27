@@ -6,7 +6,12 @@
 
     static public function generateTweets( $app, $issue, $line ) {
 
-      $title       = $issue[ 'title' ];
+      if ( self::checkTitleRelevance( $issue[ 'title' ] ) ){
+        $title  = $issue[ 'title' ] . "\n";
+      } else {
+        $title = '';
+      }
+
       $description = $issue[ 'description' ];
 
       if ( $line == 'global' ) {
@@ -15,7 +20,7 @@
         $issue = '#' . $line . "\n";
       }
 
-      $issue .= $title . "\n" . $description;
+      $issue .= $title . $description;
 
       $issue  = self::replaceCFLStrings   ( $issue );
       $issue  = self::removeCFLStrings    ( $issue );
@@ -32,6 +37,29 @@
       $tweets = self::splitToTweets       ( $issue );
 
       return $tweets;
+
+    }
+
+    static public function checkTitleRelevance( $title ){
+
+
+      // Check if the title includes one of these sentences which makes it
+      // irrelevant
+      $irrelevantSTrings = array(
+        'Delay of train ',
+        'Train delayed ',
+        'Cancellation of train ',
+        'Trains delayed Disturbances'
+
+      );
+
+      foreach ( $irrelevantSTrings as $pattern ) {
+        if ( preg_match( '/' . $pattern . '/i', $title ) ){
+          return false;
+        }
+      }
+
+      return true;
 
     }
 
