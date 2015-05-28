@@ -391,7 +391,7 @@
         '–'                                       =>  '➡️',
         'Trains will be replaced by buses'        =>  'bus replacement',
         'CFL inform their customers that due to'  =>  'due to',
-        'due to strike( a)? action'               =>  'strike'
+        '(a )?strike action'                      =>  'strike'
         );
 
       foreach ( $replaceStrings as $pattern => $replacement ) {
