@@ -379,19 +379,19 @@
 
       // Replacing strings with shortder ones
       $replaceStrings = array(
-        '(Lux[\p{L}]+)'                           =>  'LUX',
-        'p[\p{L}]+form'                           =>  'platform',
-        'Due to failure of the signal box'        =>  'Signal failure',
-        'Due to signalling problems'              =>  'Signal failure',
-        'Due to catenary works, '                 =>  'Catenary works:',
-        'Due to operational problems'             =>  'operational pbs.',
-        'the section of the line between'         =>  'section between',
-        'train traffic'                           =>  'traffic',
-        'train service'                           =>  'service',
-        '–'                                       =>  '➡️',
-        'Trains will be replaced by buses'        =>  'bus replacement',
-        'CFL inform their customers that due to'  =>  'due to',
-        '(a )?strike action'                      =>  'strike',
+        '(Lux[\p{L}]+)'                                     =>  'LUX',
+        'p[\p{L}]+form'                                     =>  'platform',
+        'Due to failure of the signal box'                  =>  'Signal failure',
+        'Due to signalling problems'                        =>  'Signal failure',
+        'Due to catenary works, '                           =>  'Catenary works:',
+        'Due to operational problems'                       =>  'operational pbs.',
+        'the section of the line between'                   =>  'section between',
+        'train traffic'                                     =>  'traffic',
+        'train service'                                     =>  'service',
+        '–'                                                 =>  '➡️',
+        'Trains will be replaced by buses'                  =>  'bus replacement',
+        'CFL inform their customers that due to'            =>  'due to',
+        '(a )?strike action'                                =>  'strike',
         'Due to a technical problem with the railway track' =>  'track problems'
         );
 
