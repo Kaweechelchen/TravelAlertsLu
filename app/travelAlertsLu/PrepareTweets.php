@@ -68,7 +68,7 @@
       return preg_replace_callback(
         "/(the|train|the train)?(\ |\,|\(|\.|\))([A-Z]{2,3}( )?\d{3,5})/i",
         function ( $matches ) {
-          $train = str_replace( ' ', '', $matches[ 4 ] );
+          $train = str_replace( ' ', '', $matches[ 3 ] );
           return ' #' . $train;
         },
         $issue
