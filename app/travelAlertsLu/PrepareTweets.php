@@ -31,7 +31,7 @@
       $issue  = self::shortenTime         ( $issue );
       $issue  = self::departure           ( $issue );
       $issue  = self::tagTrain            ( $issue );
-      $issue  = self::tagIssue            ( $issue );
+      //$issue  = self::tagIssue            ( $issue );
       $issue  = self::includeTravelAlerts ( $issue );
 
       $tweets = self::splitToTweets       ( $issue );
