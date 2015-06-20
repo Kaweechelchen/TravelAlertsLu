@@ -26,8 +26,7 @@
       // database for the current issue
       $idQuery = 'SELECT id
         FROM  issues
-        WHERE line        = ?
-        AND   title       = ?
+        WHERE title       = ?
         AND   description = ?
         AND   pubDate    >= ?
         AND   guid        = ?';
@@ -36,7 +35,6 @@
       $issueId = $app[ 'db' ]->fetchColumn(
         $idQuery,
         array(
-          $line,
           $issue[ 'title'       ],
           $issue[ 'description' ],
   (int) ( $issue[ 'pubDate'     ] - $app[ 'secondsToDiffer' ] ),
