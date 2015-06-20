@@ -32,7 +32,10 @@
       $issue  = self::departure           ( $issue );
       $issue  = self::tagTrain            ( $issue );
       //$issue  = self::tagIssue            ( $issue );
-      $issue  = self::includeTravelAlerts ( $issue );
+
+      if ( $line == 'line_90' ) {
+        $issue  = self::includeTravelAlerts ( $issue );
+      }
 
       $tweets = self::splitToTweets       ( $issue );
 
