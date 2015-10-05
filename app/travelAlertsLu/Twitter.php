@@ -91,4 +91,18 @@
 
     }
 
+    static public function getAll( $app ) {
+
+      $getAllIssues = 'SELECT *
+        FROM      tweets
+        ORDER BY  id';
+
+      $issues = $app[ 'db' ]->fetchAll(
+        $getAllIssues
+      );
+
+      return $issues;
+
+    }
+
   }

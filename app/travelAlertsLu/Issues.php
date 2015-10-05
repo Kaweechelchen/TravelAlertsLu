@@ -222,4 +222,18 @@
 
     }
 
+    static public function getAll( $app ) {
+
+      $getAllIssues = 'SELECT *
+        FROM      issues
+        ORDER BY  id';
+
+      $issues = $app[ 'db' ]->fetchAll(
+        $getAllIssues
+      );
+
+      return $issues;
+
+    }
+
   }
