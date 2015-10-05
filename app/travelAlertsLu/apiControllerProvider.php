@@ -13,11 +13,23 @@
 
       $ctr->get('/', function() use ($app) {
 
-        return $app->redirect( '/api/current' );
+        return $app->redirect( '/api/issues/' );
 
       });
 
-      $ctr->get( '/current', function( Application $app ) {
+      $ctr->get('/issues/', function() use ($app) {
+
+        return $app->json( Issues::getAll( $app ) );
+
+      });
+
+      $ctr->get('/tweets/', function() use ($app) {
+
+        return $app->json( Twitter::getAll( $app ) );
+
+      });
+
+      $ctr->get( '/current/', function( Application $app ) {
 
         return $app->json( Issues::getCurrent() );
 
