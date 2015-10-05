@@ -23,6 +23,13 @@
 
       });
 
+      $ctr->get('/issues/line/{line}/', function( $line ) use ($app) {
+
+        $line = str_replace( 'line_', '', $line);
+        return $app->json( Issues::getByLine( $app, $line ) );
+
+      });
+
       $ctr->get('/tweets/', function() use ($app) {
 
         return $app->json( Twitter::getAll( $app ) );

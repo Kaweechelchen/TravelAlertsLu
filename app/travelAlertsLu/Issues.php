@@ -236,4 +236,22 @@
 
     }
 
+    static public function getByLine( $app, $line ) {
+
+      $getIssues = 'SELECT *
+        FROM      issues
+        WHERE     line = ?
+        ORDER BY  id';
+
+      $issues = $app[ 'db' ]->fetchAll(
+        $getIssues,
+        array(
+          'CFL' . ( int ) $line
+        )
+      );
+
+      return $issues;
+
+    }
+
   }
