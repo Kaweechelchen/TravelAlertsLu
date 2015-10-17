@@ -16,7 +16,7 @@
 
       );
 
-      for( $i = 0; $i < $stations-1; $i++ ) {
+      for( $i = 0; $i < $stations; $i++ ) {
 
         $station = $closest_stations[ 'features' ][ $i ];
 
