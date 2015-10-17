@@ -3,6 +3,10 @@ TravelAlertsLu
 
 TravelAlerts.lu is a project launched by [Thierry Degeling](https://twitter.com/Kaweechelchen) in 2014. The goal of the project is to inform the customers of the Luxembourgish train company about delays and issues on the tracks.
 
+## API
+
+If you want information about the API endpoints, head over to [API.md](API.md)
+
 ## License
 Copyright (c) 2014 [Thierry Degeling](https://twitter.com/Kaweechelchen)
 Licensed under the MIT license.
