@@ -16,6 +16,7 @@ If you're only interested in the issues that are happening on a single line, use
 ## Tweets
 
 The main idea was to tweet all the issues, and we're still doing so on [@TravelAlertsLu](https://twitter.com/TravelAlertsLu)
+
 If for whatever reason you want to have access to all these tweets, we're storing them in a database too, including the tweet id.
 
 - **[<code>GET</code> api/tweets](http://travelalerts.lu/api/tweets/)**
