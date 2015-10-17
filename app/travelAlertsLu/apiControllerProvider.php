@@ -13,7 +13,7 @@
 
       $ctr->get('/', function() use ($app) {
 
-        return $app->redirect( '/api/issues/' );
+        return $app->redirect( '/api/current/' );
 
       });
 
