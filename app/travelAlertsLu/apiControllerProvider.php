@@ -42,6 +42,12 @@
 
       });
 
+      $ctr->get( '/departures/{lat}/{long}/{stations}/{departures}', function ( $lat, $long, $stations, $departures ) use ( $app ) {
+
+        return $app->json( Mobiliteit::getDepartures( $app, $lat, $long, $stations, $departures ) );
+
+      });
+
       return $ctr;
 
     }
