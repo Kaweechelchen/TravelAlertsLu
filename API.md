@@ -25,7 +25,7 @@ If for whatever reason you want to have access to all these tweets, we're storin
 
 If you want to know the upcoming departures of trains/busses around a GPS position, use:
 
-- **[<code>GET</code> api/departures/:LAT/:LONG/:STATIONS/:DEPARTURES](http://travelalerts.lu/api/departures/49.61/6.12/1/5)**
+- **[<code>GET</code> api/departures/:LAT/:LONG/:STATIONS/:DEPARTURES](http://travelalerts.lu/api/departures/49.60/6.24/1/5)**
 
 Where <code>:STATIONS</code> is the amount of stations you want the API to return
 
