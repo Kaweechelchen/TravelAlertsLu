@@ -14,13 +14,7 @@
 
       $description = $issue[ 'description' ];
 
-      if ( $line == 'global' ) {
-        $issue = '';
-      } else {
-        $issue = '#' . $line . "\n";
-      }
-
-      $issue .= $title . $description;
+      $issue = $title . $description;
 
       if ( self::dueToReadable( $issue ) ) {
 
@@ -41,8 +35,12 @@
       $issue  = self::tagTrain            ( $issue );
       //$issue  = self::tagIssue            ( $issue );
 
-      if ( $line == 'line_90' ) {
+      if ( $line == 'CFL90' ) {
         $issue  = self::includeTravelAlerts ( $issue );
+      }
+
+      if ( $line != 'global' ) {
+        $issue = '#' . $line . "\n" . $issue;
       }
 
       $tweets = self::splitToTweets       ( $issue );
