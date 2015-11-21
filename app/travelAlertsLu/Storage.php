@@ -8,7 +8,7 @@
 
       $issueId = self::getIssueId( $app, $issue, $line );
 
-      if ( $issueId ) {
+      if ( $issueId && $app[ 'debug' ] == false ) {
 
         return $issueId;
 
@@ -50,27 +50,35 @@
 
     static public function insertIssue( $app, $issue, $line ) {
 
-      // insert the issue to the database if no id was found for it (aka. new
-      // issue)
-      $app['db']->insert(
-        'issues',
-        array(
-          'line'        =>  $line,
-          'title'       =>  $issue[ 'title'       ],
-          'description' =>  $issue[ 'description' ],
-          'pubDate'     =>  $issue[ 'pubDate'     ],
-          'start'       =>  $issue[ 'start'       ],
-          'end'         =>  $issue[ 'end'         ],
-          'guid'        =>  $issue[ 'guid'        ]
-        )
-      );
-
       $tweets = PrepareTweets::generateTweets( $app, $issue, $line );
 
-      Twitter::broadcastTweets( $app, $tweets, $issue[ 'guid' ] );
+      if ( $app[ 'debug' ] ) {
 
-      // return the id of the issue that we've just inserted
-      return $app['db']->lastInsertId();
+        return $tweets;
+
+      } else {
+
+        // insert the issue to the database if no id was found for it (aka. new
+        // issue)
+        $app['db']->insert(
+          'issues',
+          array(
+            'line'        =>  $line,
+            'title'       =>  $issue[ 'title'       ],
+            'description' =>  $issue[ 'description' ],
+            'pubDate'     =>  $issue[ 'pubDate'     ],
+            'start'       =>  $issue[ 'start'       ],
+            'end'         =>  $issue[ 'end'         ],
+            'guid'        =>  $issue[ 'guid'        ]
+          )
+        );
+
+        Twitter::broadcastTweets( $app, $tweets, $issue[ 'guid' ] );
+
+        // return the id of the issue that we've just inserted
+        return $app['db']->lastInsertId();
+
+      }
 
     }
 

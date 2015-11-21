@@ -26,7 +26,7 @@
 
           foreach ( $issues as $issue ) {
 
-            Storage::saveIssue( $app, $issue, $line );
+            $tweets[] = Storage::saveIssue( $app, $issue, $line );
 
             $count++;
 
@@ -34,7 +34,15 @@
 
         }
 
-        return $count . ' issued saved';
+        if ( $app[ 'debug' ] ) {
+
+          return $app->json( $tweets );
+
+        } else {
+
+          return $count . ' issued saved';
+
+        }
 
       });
 
