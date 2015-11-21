@@ -22,8 +22,6 @@
 
       $issue .= $title . $description;
 
-      
-
       if ( self::dueToReadable( $issue ) ) {
 
         $issue  = self::dueToReadable( $issue );
@@ -211,11 +209,11 @@
 
     static public function dueToReadable ( $issue ) {
 
-      $dueTo_pattern = '/(Due to disturbances on the network of (SNCB|SCNB|SNCF|DB)?|Due to traffic problems)( )?, (the|train|the train)?(\ |\,|\(|\.|\))(([A-Z]{2,3})?( )?\d{2,5}) \(([\(\)\-\.\s[:alpha:]]+),?( originally)?( scheduled)? (arrival|departure)( at)?( ([\(\)\-\.\s[:alpha:]]+))?( )?(\d{1,2}(:|.)\d{1,2})?( in)( ([\(\)\-\.\s[:alpha:]]+))?( )?\) (has|drives with|will continue with) a(n expected)? delay of (([0-9]+-)*[0-9]+) (minutes|hours)/i';
+      $dueTo_pattern = '/(Due to )(disturbances on the network of (SNCB|SCNB|SNCF|DB)?|traffic problems|delays from the previous train)( )?, (the|train|the train)?(\ |\,|\(|\.|\))(([A-Z]{2,3})?( )?\d{2,5}) \(([\(\)\-\.\s[:alpha:]]+),?( originally)?( scheduled)? (arrival|departure)( at| in)?( ([\(\)\-\.\s[:alpha:]]+))?( )?(\d{1,2}(:|.)\d{1,2})?( in)?( ([\(\)\-\.\s[:alpha:]]+))?( )?,?( scheduled)? ?((arrival|departure)( at| in)?( ([\(\)\-\.\s[:alpha:]]+))?( )?(\d{1,2}(:|.)\d{1,2})?)?\) ?(is cancelled|(has|drives with|will continue with) a(n expected)? delay of (([0-9]+-.)*[0-9]+) (minutes|hours)?)/i';
 
       if ( preg_match( $dueTo_pattern, $issue, $dueToMatches ) ){
 
-        $issue = $dueToMatches[6] . ' ' . $dueToMatches[9] . "\n" . ucfirst($dueToMatches[12]) . ': ' . $dueToMatches[17] . "\nDelay: " . $dueToMatches[25] . ' ' . $dueToMatches[27];
+        $issue = $dueToMatches[7] . ' ' . $dueToMatches[10] . "\n" . ucfirst($dueToMatches[13]) . ': ' . $dueToMatches[18] . "\nDelay: " . $dueToMatches[36] . ' ' . $dueToMatches[38];
         return $issue;
 
       } else {
