@@ -22,14 +22,24 @@
 
       $issue .= $title . $description;
 
-      $issue  = self::replaceCFLStrings   ( $issue );
-      $issue  = self::removeCFLStrings    ( $issue );
-      $issue  = self::removeSpaces        ( $issue );
-      $issue  = self::delayReadable       ( $issue );
-      //$issue  = self::dueToReadable       ( $issue );
-      $issue  = self::shortenDate         ( $issue );
-      $issue  = self::shortenTime         ( $issue );
-      $issue  = self::departure           ( $issue );
+      
+
+      if ( self::dueToReadable( $issue ) ) {
+
+        $issue  = self::dueToReadable( $issue );
+
+      } else {
+
+        $issue  = self::replaceCFLStrings   ( $issue );
+        $issue  = self::removeCFLStrings    ( $issue );
+        $issue  = self::removeSpaces        ( $issue );
+        $issue  = self::delayReadable       ( $issue );
+        $issue  = self::shortenDate         ( $issue );
+        $issue  = self::shortenTime         ( $issue );
+        $issue  = self::departure           ( $issue );
+
+      }
+
       $issue  = self::tagTrain            ( $issue );
       //$issue  = self::tagIssue            ( $issue );
 
@@ -69,7 +79,7 @@
     static public function tagTrain ( $issue ){
 
       return preg_replace_callback(
-        "/(the|train|the train)?(\ |\,|\(|\.|\))([A-Z]{2,3}( )?\d{3,5})/i",
+        "/(the|train|the train)?(\ |\,|\(|\.|\))?([A-Z]{2,3}( )?\d{3,5})/i",
         function ( $matches ) {
           $train = str_replace( ' ', '', $matches[ 3 ] );
           return ' #' . $train;
@@ -188,7 +198,7 @@
 
       if ( preg_match( $delay_pattern, $issue, $delayMatches ) ){
 
-        $issue = str_replace( $delayMatches[1], "\nexp. delay: " . $delayMatches[8], $issue);
+        $issue = str_replace( $delayMatches[1], "\ndelay: " . $delayMatches[8], $issue);
         if ( strtolower( $delayMatches[9] ) == 'minutes' ) {
           $issue .= 'm';
         }
@@ -201,15 +211,16 @@
 
     static public function dueToReadable ( $issue ) {
 
-      $dueTo_pattern = '/(((Due to )([\w\s]+)),)/i';
+      $dueTo_pattern = '/(Due to disturbances on the network of (SNCB|SCNB|SNCF|DB)?|Due to traffic problems)( )?, (the|train|the train)?(\ |\,|\(|\.|\))(([A-Z]{2,3})?( )?\d{2,5}) \(([\(\)\-\.\s[:alpha:]]+),?( originally)?( scheduled)? (arrival|departure)( at)?( ([\(\)\-\.\s[:alpha:]]+))?( )?(\d{1,2}(:|.)\d{1,2})?( in)( ([\(\)\-\.\s[:alpha:]]+))?( )?\) (has|drives with|will continue with) a(n expected)? delay of (([0-9]+-)*[0-9]+) (minutes|hours)/i';
 
       if ( preg_match( $dueTo_pattern, $issue, $dueToMatches ) ){
 
-        $issue = str_replace( $dueToMatches[1], $dueToMatches[4] . ':', $issue);
+        $issue = $dueToMatches[6] . ' ' . $dueToMatches[9] . "\n" . ucfirst($dueToMatches[12]) . ': ' . $dueToMatches[17] . "\nDelay: " . $dueToMatches[25] . ' ' . $dueToMatches[27];
+        return $issue;
 
+      } else {
+        return false;
       }
-
-      return $issue;
 
     }
 
