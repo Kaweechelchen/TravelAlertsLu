@@ -17,6 +17,12 @@
 
       });
 
+      $ctr->get('/list/', function() use ($app) {
+
+        return $app->json( Issues::getList( $app ) );
+
+      });
+
       $ctr->get('/issues/', function() use ($app) {
 
         return $app->json( Issues::getAll( $app ) );

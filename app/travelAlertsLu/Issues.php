@@ -236,6 +236,28 @@
 
     }
 
+    static public function getList( $app ) {
+
+       $getAllIssues = 'SELECT *
+        FROM      issues
+        ORDER BY  title';
+
+      $issues = $app[ 'db' ]->fetchAll(
+        $getAllIssues
+      );
+
+      foreach ( $issues as $issue ) {
+
+        echo $issue[ 'title' ] . ' >>>> ' . $issue[ 'description' ] . '<br />';
+
+      }
+
+      die();
+
+      return $issues;
+
+    }
+
     static public function getByLine( $app, $line ) {
 
       $getIssues = 'SELECT *
