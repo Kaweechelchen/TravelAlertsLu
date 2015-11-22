@@ -209,21 +209,21 @@
 
     static public function dueToReadable ( $issue ) {
 
-      $dueTo_pattern = '/(Due to )(disturbances on the network of (SNCB|SCNB|SNCF|DB)?|traffic problems|delays from the previous train|a breakdown|the cancellation of (the|train|the train)?(\ |\,|\(|\.|\))(([A-Z]{2,3})?( )?\d{2,5}))( )?, (the|train|the train)?(\ |\,|\(|\.|\))(([A-Z]{2,3})?( )?\d{2,5}) \(([\(\)\-\.\s[:alpha:]]+),?( originally)?( scheduled)? (arrival|departure)( at| in)?( ([\(\)\-\.\s[:alpha:]]+))?( )?(\d{1,2}(:|.)\d{1,2})?( in)?( ([\(\)\-\.\s[:alpha:]]+))?( )?,?( scheduled)? ?((arrival|departure)( at| in)?( ([\(\)\-\.\s[:alpha:]]+))?( )?(\d{1,2}(:|.)\d{1,2})?)?\) ?(is cancelled|(has|drives with|will continue with) a(n expected)? ?(delay of )?(([0-9]+-.)*[0-9]+) (minutes|hours)?)/i';
+      $dueTo_pattern = '/(due to )(disturbances on the network of (SNCB|SCNB|SNCF|DB)?|traffic problems|delays from the previous train|a breakdown|(a )?last minute modification of( the)? staff planning|the cancellation of (the|train|the train)?(\ |\,|\(|\.|\))(([A-Z]{2,3})?( )?\d{2,5}))( )?, (the|train|the train)?(\ |\,|\(|\.|\))(([A-Z]{2,3})?( )?\d{2,5}) \(([\(\)\-\.\s[:alpha:]]+),?( originally)?( scheduled)? (arrival|departure)( at| in)?( ([\(\)\-\.\s[:alpha:]]+))?( )?(\d{1,2}(:|.)\d{1,2})?( in)?( ([\(\)\-\.\s[:alpha:]]+))?( )?,?( scheduled)? ?((arrival|departure)( at| in)?( ([\(\)\-\.\s[:alpha:]]+))?( )?(\d{1,2}(:|.)\d{1,2})?)?\) ?(is cancelled|(has|drives with|will continue with) a(n expected)? ?(delay of )?(([0-9]+-.)*[0-9]+) (minutes|hours)?)/i';
 
       if ( preg_match( $dueTo_pattern, $issue, $dueToMatches ) ){
 
         // TrainID departure-destination
-        $issue  = $dueToMatches[12] . ' ' . $dueToMatches[15];
+        $issue  = $dueToMatches[14] . ' ' . $dueToMatches[17];
 
         // Arrival|Departure: TIME
-        $issue .= "\n" . ucfirst($dueToMatches[18]) . ': ' . $dueToMatches[23];
+        $issue .= "\n" . ucfirst($dueToMatches[20]) . ': ' . $dueToMatches[25];
 
-        if ( strtolower($dueToMatches[38]) == 'is cancelled' ) {
+        if ( strtolower($dueToMatches[40]) == 'is cancelled' ) {
           $issue .= "\nis cancelled";
         } else {
           // Delay AMOUNT TIME-UNIT
-          $issue .= "\nDelay: " . $dueToMatches[42] . ' ' . $dueToMatches[44];
+          $issue .= "\nDelay: " . $dueToMatches[44] . ' ' . $dueToMatches[46];
         }
         return $issue;
 
