@@ -219,7 +219,7 @@
         // Arrival|Departure: TIME
         $issue .= "\n" . ucfirst($dueToMatches[21]) . ': ' . $dueToMatches[26];
 
-        if ( strtolower($dueToMatches[40]) == 'is cancelled' ) {
+        if ( strtolower($dueToMatches[41]) == 'is cancelled' ) {
           $issue .= "\nis cancelled";
         } else {
           // Delay AMOUNT TIME-UNIT
