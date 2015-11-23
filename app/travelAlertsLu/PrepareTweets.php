@@ -209,7 +209,7 @@
 
     static public function dueToReadable ( $issue ) {
 
-      $dueTo_pattern = '/(due to )(disturbances on the network of (SNCB|SCNB|SNCF|DB)?|traffic problems|delays from the previous train|a breakdown|(a )?last minute modification of( the)? staff planning|the cancellation of (the|train|the train)?(\ |\,|\(|\.|\))(([A-Z]{2,3})?( )?\d{2,5})|operational problems in ([\(\)\-\.\s[:alpha:]]+))( )?, (the|train|the train)?(\ |\,|\(|\.|\))(([A-Z]{2,3})?( )?\d{2,5}) \(([\(\)\-\.\s[:alpha:]]+),?( originally)?( scheduled)? (arrival|departure)( at| in)?( ([\(\)\-\.\s[:alpha:]]+))?( )?(\d{1,2}(:|.)\d{1,2})?( in)?( ([\(\)\-\.\s[:alpha:]]+))?( )?,?( scheduled)? ?((arrival|departure)( at| in)?( ([\(\)\-\.\s[:alpha:]]+))?( )?(\d{1,2}(:|.)\d{1,2})?)?\) ?(is cancelled|(has|drives with|will continue with) a(n expected)? ?(delay of )?(([0-9]+-.)*[0-9]+) (minutes|hours)?)/i';
+      $dueTo_pattern = '/(due to )(disturbances on the network of (SNCB|SCNB|SNCF|DB)?|traffic problems|a lack of equipment|delays from the previous train|a breakdown|(a )?last minute modification of( the)? staff planning|the cancellation of (the|train|the train)?(\ |\,|\(|\.|\))(([A-Z]{2,3})?( )?\d{2,5})|operational problems in ([\(\)\-\.\s[:alpha:]]+))( )?, (the|train|the train)?(\ |\,|\(|\.|\))(([A-Z]{2,3})?( )?\d{2,5}) \(([\(\)\-\.\s[:alpha:]]+),?( originally)?( scheduled)? (arrival|departure)( at| in)?( ([\(\)\-\.\s[:alpha:]]+))?( )?(\d{1,2}(:|.)\d{1,2})?( in)?( ([\(\)\-\.\s[:alpha:]]+))?( )?,?( scheduled)? ?((arrival|departure)( at| in)?( ([\(\)\-\.\s[:alpha:]]+))?( )?(\d{1,2}(:|.)\d{1,2})?)?\) ?(is cancelled|(has|drives with|will continue with) a(n expected)? ?(delay of )?(([0-9]+-.)*[0-9]+) (minutes|hours)?)/i';
 
       if ( preg_match( $dueTo_pattern, $issue, $dueToMatches ) ){
 
