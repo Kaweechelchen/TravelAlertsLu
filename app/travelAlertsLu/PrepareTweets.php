@@ -29,10 +29,10 @@
         $issue  = self::shortenDate         ( $issue );
         $issue  = self::shortenTime         ( $issue );
         $issue  = self::departure           ( $issue );
+        $issue  = self::tagTrain            ( $issue );
 
       }
 
-      $issue  = self::tagTrain            ( $issue );
       //$issue  = self::tagIssue            ( $issue );
 
       if ( $line == 'CFL90' ) {
@@ -214,7 +214,7 @@
       if ( preg_match( $dueTo_pattern, $issue, $dueToMatches ) ){
 
         // TrainID departure-destination
-        $issue  = $dueToMatches['train'] . ' ' . $dueToMatches['track'];
+        $issue  = '#' . str_replace( ' ', '', $dueToMatches['train'] ) . ' ' . $dueToMatches['track'];
 
         // Arrival|Departure: TIME
         $issue .= "\n" . ucfirst($dueToMatches['schedule_time_of']) . ': ' . $dueToMatches['schedule_time'];
