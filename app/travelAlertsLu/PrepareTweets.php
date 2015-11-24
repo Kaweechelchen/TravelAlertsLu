@@ -209,21 +209,21 @@
 
     static public function dueToReadable ( $issue ) {
 
-      $dueTo_pattern = '/(due to )(disturbances on the network of (SNCB|SCNB|SNCF|DB)?|traffic problems|a lack of equipment|delays from the previous train|a breakdown|(a )?last minute modification of( the)? staff planning|the cancellation of (the|train|the train)?(\ |\,|\(|\.|\))(([A-Z]{2,3})?( )?\d{2,5})|operational problems in ([\(\)\-\.\s[:alpha:]]+))( )?, (the|train|the train)?(\ |\,|\(|\.|\))(([A-Z]{2,3})?( )?\d{2,5}) \(([\(\)\-\.\s[:alpha:]]+),?( originally)?( scheduled)? (arrival|departure)( at| in)?( ([\(\)\-\.\s[:alpha:]]+))?( )?(\d{1,2}(:|.)\d{1,2})?( in)?( ([\(\)\-\.\s[:alpha:]]+))?( )?,?( scheduled)? ?((arrival|departure)( at| in)?( ([\(\)\-\.\s[:alpha:]]+))?( )?(\d{1,2}(:|.)\d{1,2})?)?\) ?(is cancelled|(has|drives with|will continue with) a(n expected)? ?(delay of )?(([0-9]+-.)*[0-9]+) (minutes|hours)?)/i';
+      $dueTo_pattern = '/(due to )(disturbances on the network of (SNCB|SCNB|SNCF|DB)?|traffic problems|a lack of equipment|delays from the previous train|a breakdown|(a )?last minute modification of( the)? staff planning|the cancellation of (the|train|the train)?(\ |\,|\(|\.|\))(([A-Z]{2,3})?( )?\d{2,5})|operational problems in ([\(\)\-\.\s[:alpha:]]+)|delays from the train)(\ |\,|\(|\.|\))(([A-Z]{2,3})?( )?\d{2,5})( )?, (the|train|the train)?(\ |\,|\(|\.|\))(([A-Z]{2,3})?( )?\d{2,5}) \(([\(\)\-\.\s[:alpha:]]+),?( originally)?( scheduled)? (arrival|departure)( at| in)?( ([\(\)\-\.\s[:alpha:]]+))?( )?(\d{1,2}(:|.)\d{1,2})?( in)?( ([\(\)\-\.\s[:alpha:]]+))?( )?,?( scheduled)? ?((arrival|departure)( at| in)?( ([\(\)\-\.\s[:alpha:]]+))?( )?(\d{1,2}(:|.)\d{1,2})?)?\) ?(is cancelled|(has|drives with|will continue with) a(n expected)? ?(delay of )?(([0-9]+-.)*[0-9]+) (minutes|hours)?)/i';
 
       if ( preg_match( $dueTo_pattern, $issue, $dueToMatches ) ){
 
         // TrainID departure-destination
-        $issue  = $dueToMatches[15] . ' ' . $dueToMatches[18];
+        $issue  = $dueToMatches[19] . ' ' . $dueToMatches[22];
 
         // Arrival|Departure: TIME
-        $issue .= "\n" . ucfirst($dueToMatches[21]) . ': ' . $dueToMatches[26];
+        $issue .= "\n" . ucfirst($dueToMatches[25]) . ': ' . $dueToMatches[30];
 
         if ( strtolower($dueToMatches[41]) == 'is cancelled' ) {
           $issue .= "\nis cancelled";
         } else {
           // Delay AMOUNT TIME-UNIT
-          $issue .= "\nDelay: " . $dueToMatches[45] . ' ' . $dueToMatches[47];
+          $issue .= "\nDelay: " . $dueToMatches[49] . ' ' . $dueToMatches[51];
         }
         return $issue;
 
