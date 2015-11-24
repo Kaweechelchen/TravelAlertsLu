@@ -209,22 +209,23 @@
 
     static public function dueToReadable ( $issue ) {
 
-      $dueTo_pattern = '/(due to )(disturbances on the network of (SNCB|SCNB|SNCF|DB)?|traffic problems|a lack of equipment|delays from the previous train|a breakdown|(a )?last minute modification of( the)? staff planning|the cancellation of (the|train|the train)?(\ |\,|\(|\.|\))(([A-Z]{2,3})?( )?\d{2,5})|operational problems in ([\(\)\-\.\s[:alpha:]]+))( )?, (the|train|the train)?(\ |\,|\(|\.|\))(([A-Z]{2,3})?( )?\d{2,5}) \(([\(\)\-\.\s[:alpha:]]+),?( originally)?( scheduled)? (arrival|departure)( at| in)?( ([\(\)\-\.\s[:alpha:]]+))?( )?(\d{1,2}(:|.)\d{1,2})?( in)?( ([\(\)\-\.\s[:alpha:]]+))?( )?,?( scheduled)? ?((arrival|departure)( at| in)?( ([\(\)\-\.\s[:alpha:]]+))?( )?(\d{1,2}(:|.)\d{1,2})?)?\) ?(is cancelled|(has|drives with|will continue with) a(n expected)? ?(delay of )?(([0-9]+-.)*[0-9]+) (minutes|hours)?)/i';
+      $dueTo_pattern = '/(?:due to )(?P<description>disturbances on the network of (?:SNCB|SCNB|SNCF|DB)?|traffic problems|a lack of equipment|delays from the previous train|a breakdown|a technical problem on the railway(?: )?crossing in [\(\)\-\.\s[:alpha:]]+|an overload in [\(\)\-\.\s[:alpha:]]+ station|(?:a )?last minute modification of(?: the)? staff planning|the cancellation of (?:the|train|the train)?(?:\ |\,|\(|\.|\))(?P<train2>(?:[A-Z]{2,3})?[\s]*\d{2,5})|operational problems in (?:[\(\)\-\.\s[:alpha:]]+)|delays from the train(?:\ |\,|\(|\.|\))(?P<train3>([A-Z]{2,3})?[\s]*\d{2,5}))[\s]*, (?:the|train|the train)?(?:\ |\,|\(|\.|\))(?P<train>(?:[A-Z]{2,3})?[\s]*\d{2,5}) \((?P<track>[\(\)\-\.\s[:alpha:]]+),?(?: originally)?(?: scheduled)? (?P<schedule_time_of>arrival|departure)(?: at| in)?(?: (?P<schedule_departure>[\(\)\-\.\s[:alpha:]]+))?[\s]*(?P<schedule_time>\d{1,2}(?::|.)\d{1,2})?(?:[\s]+in)?(?: (?P<schedule_loctaion>[\(\)\-\.\s[:alpha:]]+))?[\s]*,?(?: scheduled)? ?(?:(?P<schedule_time_of2>arrival|departure)( at| in)?(?: (?P<schedule_arrival>[\(\)\-\.\s[:alpha:]]+))?( )?(?P<schedule_time2>\d{1,2}(?::|.)\d{1,2})?)?\) ?(?P<reason>is cancelled|(?:has|drives with|will continue with) a(?:n expected)? ?(?:delay of )?(?P<delay>(?:[0-9]+-.)*[0-9]+) (?P<delay_unit>minutes|hours)?)/i';
 
       if ( preg_match( $dueTo_pattern, $issue, $dueToMatches ) ){
 
         // TrainID departure-destination
-        $issue  = $dueToMatches[15] . ' ' . $dueToMatches[18];
+        $issue  = $dueToMatches['train'] . ' ' . $dueToMatches['track'];
 
         // Arrival|Departure: TIME
-        $issue .= "\n" . ucfirst($dueToMatches[21]) . ': ' . $dueToMatches[26];
+        $issue .= "\n" . ucfirst($dueToMatches['schedule_time_of']) . ': ' . $dueToMatches['schedule_time'];
 
-        if ( strtolower($dueToMatches[41]) == 'is cancelled' ) {
+        if ( strtolower($dueToMatches['reason']) == 'is cancelled' ) {
           $issue .= "\nis cancelled";
         } else {
           // Delay AMOUNT TIME-UNIT
-          $issue .= "\nDelay: " . $dueToMatches[45] . ' ' . $dueToMatches[47];
+          $issue .= "\nDelay: " . $dueToMatches['delay'] . ' ' . $dueToMatches['delay_unit'];
         }
+
         return $issue;
 
       } else {
