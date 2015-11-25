@@ -44,7 +44,7 @@
       $issue = trim($issue);
 
       if ( $line != 'global' ) {
-        $issue = '#' . $line . "\n" . $issue;
+        $issue = $issue . "\n#" . $line;
       }
 
       $tweets = self::splitToTweets       ( $issue );
