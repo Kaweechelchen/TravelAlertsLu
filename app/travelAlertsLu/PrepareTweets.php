@@ -217,7 +217,7 @@
         $issue  = '#' . str_replace( ' ', '', $dueToMatches['train'] ) . ' ' . $dueToMatches['track'];
 
         // Arrival|Departure: TIME
-        $issue .= "\n" . ucfirst($dueToMatches['schedule_time_of']) . ': ' . $dueToMatches['schedule_time'];
+        $issue .= "\n" . ucfirst($dueToMatches['schedule_time_of']) . ' ' . ltrim( $dueToMatches['schedule_time'], '0' );
 
         if ( strtolower($dueToMatches['reason']) == 'is cancelled' ) {
           $issue .= "\nis cancelled";
