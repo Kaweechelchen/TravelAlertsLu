@@ -228,7 +228,7 @@
       if ( preg_match( $dueTo_pattern, $issue, $dueToMatches ) ){
 
         // TrainID departure-destination
-        $issue  = '#' . str_replace( ' ', '', $dueToMatches['train'] ) . ' ' . $dueToMatches['track'];
+        $issue  = '🚂 #' . str_replace( ' ', '', $dueToMatches['train'] ) . ' ' . $dueToMatches['track'];
 
         // Arrival|Departure: TIME
         $issue .= "\n" . ucfirst($dueToMatches['schedule_time_of']) . ' ' . ltrim( $dueToMatches['schedule_time'], '0' );
