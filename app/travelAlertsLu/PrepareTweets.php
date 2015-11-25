@@ -18,7 +18,8 @@
 
       if ( self::dueToReadable( $issue ) ) {
 
-        $issue  = self::dueToReadable( $issue );
+        $issue  = self::dueToReadable       ( $issue );
+        $issue  = self::replaceCFLStrings   ( $issue );
 
       } else {
 
