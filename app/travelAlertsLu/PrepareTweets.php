@@ -222,8 +222,15 @@
         if ( strtolower($dueToMatches['reason']) == 'is cancelled' ) {
           $issue .= "\nis cancelled";
         } else {
+
+          if ( substr( $dueToMatches['delay_unit'], 0, 3 ) == 'min' ) {
+            $delay_unit = '’';
+          } else {
+            $delay_unit = ' ' . $dueToMatches['delay_unit'];
+          }
+
           // Delay AMOUNT TIME-UNIT
-          $issue .= "\nDelay: " . $dueToMatches['delay'] . ' ' . $dueToMatches['delay_unit'];
+          $issue .= "\nDelay: " . $dueToMatches['delay'] . $delay_unit;
         }
 
         return $issue;
