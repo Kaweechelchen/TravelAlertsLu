@@ -55,7 +55,7 @@
 
     static public function HighlightDirection ( $issue ) {
 
-      $stationsPattern = '/(?P<start>.*?(?:Rumelange|Arlon|Volmerange-les-Mines|Bettembourg|Rodange|Luxembourg|Ettelbruck|Diekirch|Trier|Liers|Mulhouse(?:-Ville)?|Metz(?:-Ville)?|Longwy|Thionville|Troisvierges|Bruxelles-Midi|Wasserbillig|Athus|Basel(?:-SBB)|Virton|Gouvy|KOBLENZ HBF \(Germany\)|Strasbourg|Kleinbettingen))-(?P<end>.*)/is';
+      $stationsPattern = '/(?P<start>.*?(?:Kautenbach|Dommeldange|Wiltz|Rumelange|Arlon|Volmerange-les-Mines|Bettembourg|Rodange|Luxembourg|Ettelbruck|Diekirch|Trier(?:-Hbf)?|Liers|Mulhouse(?:-Ville)?|Metz(?:-Ville)?|Longwy|Thionville|Troisvierges|Bruxelles-Midi|Wasserbillig|Athus|Basel(?:-SBB)|Virton|Gouvy|KOBLENZ HBF \(Germany\)|Strasbourg|Kleinbettingen))-(?P<end>.*)/is';
 
       if ( preg_match( $stationsPattern, $issue, $stationsMatches ) ){
         return $stationsMatches['start'] . '→' . $stationsMatches['end'];

@@ -26,6 +26,10 @@
 
           foreach ( $issues as $issue ) {
 
+            $issue['title'] = 'Operational problems - Delay of train RE 5135';
+
+            $issue['description'] = 'Due to a lack of equipment, train RB 6805 (Luxembourg-Rodange, scheduled departure 05:20 in Luxembourg) runs exceptionally with a lower capacity today.';
+
             $tweets[] = Storage::saveIssue( $app, $issue, $line );
 
             $count++;
