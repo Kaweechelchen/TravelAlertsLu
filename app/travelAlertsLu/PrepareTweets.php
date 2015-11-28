@@ -12,9 +12,11 @@
         $title = '';
       }
 
-      $description = $issue[ 'description' ];
+      $issue = $issue[ 'description' ];
 
-      $issue = $title . $description;
+      var_dump($issue);
+      var_dump(self::dueToReadable( $issue ));
+      exit;
 
       if ( self::dueToReadable( $issue ) ) {
 
@@ -24,6 +26,7 @@
 
       } else {
 
+        $issue = $title . $issue;
         $issue  = self::replaceCFLStrings   ( $issue );
         $issue  = self::removeCFLStrings    ( $issue );
         $issue  = self::removeSpaces        ( $issue );
