@@ -14,10 +14,6 @@
 
       $issue = $issue[ 'description' ];
 
-      var_dump($issue);
-      var_dump(self::dueToReadable( $issue ));
-      exit;
-
       if ( self::dueToReadable( $issue ) ) {
 
         $issue  = self::HighlightDirection  ( $issue );
