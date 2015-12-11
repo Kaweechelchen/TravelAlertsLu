@@ -16,11 +16,21 @@
         <h3 class="text-muted">Debugging Tweet <a href="https://twitter.com/TravelAlertsLu/status/{{issue.tweetId}}" target="_blank">{{issue.tweetId}}</a></h3>
       </div>
 
-      <div class="jumbotron">
-      	{% for newTweet in issue.freshGeneration %}
-      		<h4>Tweet {{ loop.index }}</h4>
-        	<h3>{{ newTweet|nl2br }}</h3>
-        {% endfor %}
+      <div class="row">
+        <div class="col-md-8">
+          {% for newTweet in issue.freshGeneration %}
+            <div class="well">
+          		<h4>Tweet {{ loop.index }}</h4>
+            	<h3>{{ newTweet|nl2br }}</h3>
+            </div>
+          {% endfor %}
+        </div>
+        <div class="col-md-4">
+          <div class="well">
+            <h4>Original tweet</h4>
+            <h3>{{ issue.tweet|nl2br }}</h3>
+          </div>
+        </div>
       </div>
 
       <div class="row marketing">
