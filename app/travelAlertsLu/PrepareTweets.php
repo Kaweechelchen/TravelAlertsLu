@@ -236,7 +236,7 @@
 
           $issue .= "\nis cancelled";
 
-        } elseif ( strpos( strtolower($dueToMatches['reason']), 'lower capacity') ) {
+        } elseif ( strpos( strtolower($dueToMatches['reason']), 'lower capacity') !== false ) {
 
           $issue .= "\nlower capacity";
 
