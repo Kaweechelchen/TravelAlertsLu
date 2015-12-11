@@ -246,7 +246,7 @@
 
         } elseif ( $dueToMatches['running_between_dep'] != '' && $dueToMatches['running_between_arr'] != '' ) {
 
-          $issue .= "\nonly runs btwn " . $dueToMatches['running_between_dep'] . " 'n " . $dueToMatches['running_between_arr'];
+          $issue .= "\nonly runs btwn " . $dueToMatches['running_between_dep'] . " & " . $dueToMatches['running_between_arr'];
 
         } else {
 
