@@ -42,6 +42,15 @@
 
       });
 
+      $ctr->get('/debug/tweet/{tweetId}', function( $tweetId ) use ($app) {
+        return $app['twig']->render(
+          'debug.twig',
+          array(
+            'issue' => Issues::getIssueByTweet( $app, $tweetId )
+          )
+        );
+      });
+
       $ctr->get('/tweets/', function() use ($app) {
 
         return $app->json( Twitter::getAll( $app ) );
