@@ -36,6 +36,12 @@
 
       });
 
+      $ctr->get('/issues/tweet/{tweetId}', function( $tweetId ) use ($app) {
+
+        return $app->json( Issues::getIssueByTweet( $app, $tweetId ) );
+
+      });
+
       $ctr->get('/tweets/', function() use ($app) {
 
         return $app->json( Twitter::getAll( $app ) );

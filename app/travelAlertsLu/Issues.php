@@ -276,4 +276,25 @@
 
     }
 
+    static public function getIssueByTweet( $app, $tweetId ) {
+
+      $getIssue = 'SELECT i.id, i.line, i.title, i.description, i.time_added, t.tweetId, t.tweet
+        FROM      issues i,
+                  tweets t
+        WHERE     i.guid = t.guid
+        AND       t.tweetId = ?';
+
+      $issue = $app[ 'db' ]->fetchAssoc(
+        $getIssue,
+        array(
+          $tweetId
+        )
+      );
+
+      $issue['freshGeneration'] = PrepareTweets::generateTweets($app, $issue, $issue['line']);
+
+      return $issue;
+
+    }
+
   }
