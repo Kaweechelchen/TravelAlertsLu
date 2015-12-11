@@ -6,9 +6,6 @@
 
     static public function getDepartures( $app, $lat, $long, $stations, $departures )  {
 
-      //$lat  = '49.61';
-      //$long = '6.12';
-
       $closest_stations = json_decode(
 
         file_get_contents( "https://busproxy.herokuapp.com/around/$lat/$long" ),
