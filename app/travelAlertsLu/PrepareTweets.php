@@ -264,8 +264,6 @@
             $delay = 'Delay: ' . $delay . $delay_unit;
           }
 
-          var_dump( $delay );
-
           // Delay AMOUNT TIME-UNIT
           $issue .= "\n$delay";
         }
