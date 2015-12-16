@@ -90,9 +90,9 @@
     static public function tagTrain ( $issue ){
 
       return preg_replace_callback(
-        "/(the|train|the train)?(\ |\,|\(|\.|\))?([A-Z]{2,3}( )?\d{3,5})/i",
+        "/(?:\,|\(|\.|\)|\s)(?P<train>[A-Z]{2,3}(?: )?\d{3,5})/i",
         function ( $matches ) {
-          $train = str_replace( ' ', '', $matches[ 3 ] );
+          $train = str_replace( ' ', '', $matches['train'] );
           return ' #' . $train;
         },
         $issue
