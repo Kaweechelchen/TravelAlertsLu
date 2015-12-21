@@ -34,8 +34,6 @@
 
       }
 
-      //$issue  = self::tagIssue            ( $issue );
-
       if ( $line == 'CFL90' ) {
         $issue  = self::includeTravelAlerts ( $issue );
       }
