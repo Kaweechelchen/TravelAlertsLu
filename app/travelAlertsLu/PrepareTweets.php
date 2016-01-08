@@ -34,8 +34,6 @@
 
       }
 
-      //$issue  = self::tagIssue            ( $issue );
-
       if ( $line == 'CFL90' ) {
         $issue  = self::includeTravelAlerts ( $issue );
       }
@@ -54,7 +52,7 @@
 
     static public function HighlightDirection ( $issue ) {
 
-      $stationsPattern = '/(?P<start>.*?(?:Mersch|Esch-sur-Alzette|Paris(?: Est)?|Kautenbach|Dommeldange|Wiltz|Rumelange|Noertzange|Nancy|Arlon|Volmerange-les-Mines|Bettembourg|Rodange|Luxembourg|Ettelbruck|Diekirch|Trier(?:-Hbf)?|Liers|Mulhouse(?:-Ville)?|Metz(?:-Ville)?|Longwy|Thionville|Troisvierges|Bruxelles-Midi|Wasserbillig|Athus|Basel(?:-SBB)|Virton|Gouvy|KOBLENZ HBF \(Germany\)|Strasbourg|Kleinbettingen))(:? )?-(?P<end>.*)/is';
+      $stationsPattern = '/(?P<start>.*?(?:Mersch|Esch-sur-Alzette|Paris(?: Est)?|Kautenbach|Dommeldange|Wiltz|Rumelange|Noertzange|Nancy|Arlon|Volmerange-les-Mines|Bettembourg|Rodange|Luxembourg|Pétange|Ettelbruck|Diekirch|Trier(?:-Hbf)?|Liers|Mulhouse(?:-Ville)?|Metz(?:-Ville)?|Longwy|Thionville|Troisvierges|Bruxelles-Midi|Wasserbillig|Athus|Basel(?:-SBB)|Virton|Gouvy|KOBLENZ(?: HBF)?(?: \(Germany\))?|Strasbourg|Kleinbettingen))(:? )?-(?P<end>.*)/is';
 
       if ( preg_match( $stationsPattern, $issue, $stationsMatches ) ){
         return $stationsMatches['start'] . '→' . $stationsMatches['end'];
@@ -90,9 +88,9 @@
     static public function tagTrain ( $issue ){
 
       return preg_replace_callback(
-        "/(the|train|the train)?(\ |\,|\(|\.|\))?([A-Z]{2,3}( )?\d{3,5})/i",
+        "/(?:\,|\(|\.|\)|\s)(?P<train>[A-Z]{2,3}(?: )?\d{3,5})/i",
         function ( $matches ) {
-          $train = str_replace( ' ', '', $matches[ 3 ] );
+          $train = str_replace( ' ', '', $matches['train'] );
           return ' #' . $train;
         },
         $issue
@@ -256,8 +254,16 @@
             $delay_unit = ' ' . $dueToMatches['delay_unit'];
           }
 
+          $delay = $dueToMatches['delay'];
+
+          if ( $delay == '' ) {
+            $delay = 'has a short delay';
+          } else {
+            $delay = 'Delay: ' . $delay . $delay_unit;
+          }
+
           // Delay AMOUNT TIME-UNIT
-          $issue .= "\nDelay: " . $dueToMatches['delay'] . $delay_unit;
+          $issue .= "\n$delay";
         }
 
         return $issue;
