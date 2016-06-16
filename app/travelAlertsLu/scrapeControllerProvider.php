@@ -1,53 +1,43 @@
 <?php
 
-  namespace travelAlertsLu;
+namespace travelAlertsLu;
 
-  use Silex\Application;
-  use Silex\ControllerProviderInterface;
+use Silex\Application;
+use Silex\ControllerProviderInterface;
 
-  class scrapeControllerProvider implements ControllerProviderInterface {
+class scrapeControllerProvider implements ControllerProviderInterface
+{
+    public function connect(Application $app)
+    {
+        $ctr = $app['controllers_factory'];
 
-    public function connect ( Application $app ) {
+        $ctr->get('/', function (Application $app) {
 
-      $ctr = $app['controllers_factory'];
+            $lineIssues = Issues::getLineIssues($app);
 
-      $ctr->get( '/', function( Application $app ) {
+            file_put_contents(
+                'current.json',
+                json_encode($lineIssues)
+            );
 
-        $lineIssues = Issues::getLineIssues( $app );
+            $count = 0;
 
-        file_put_contents(
-          'current.json',
-          json_encode( $lineIssues )
-        );
+            foreach ($lineIssues as $line => $issues) {
+                foreach ($issues as $issue) {
+                    $tweets[] = Storage::saveIssue($app, $issue, $line);
 
-        $count = 0;
+                    ++$count;
+                }
+            }
 
-        foreach ( $lineIssues as $line => $issues ) {
+            if ($app[ 'debug' ]) {
+                return $app->json($tweets);
+            } else {
+                return $count.' issued saved';
+            }
 
-          foreach ( $issues as $issue ) {
+        });
 
-            $tweets[] = Storage::saveIssue( $app, $issue, $line );
-
-            $count++;
-
-          }
-
-        }
-
-        if ( $app[ 'debug' ] ) {
-
-          return $app->json( $tweets );
-
-        } else {
-
-          return $count . ' issued saved';
-
-        }
-
-      });
-
-      return $ctr;
-
+        return $ctr;
     }
-
-  }
+}

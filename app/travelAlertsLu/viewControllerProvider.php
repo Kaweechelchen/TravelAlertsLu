@@ -1,24 +1,22 @@
 <?php
 
-  namespace travelAlertsLu;
+namespace travelAlertsLu;
 
-  use Silex\Application;
-  use Silex\ControllerProviderInterface;
+use Silex\Application;
+use Silex\ControllerProviderInterface;
 
-  class viewControllerProvider implements ControllerProviderInterface {
+class viewControllerProvider implements ControllerProviderInterface
+{
+    public function connect(Application $app)
+    {
+        $ctr = $app['controllers_factory'];
 
-    public function connect ( Application $app ) {
+        $ctr->get('/', function (Application $app) {
 
-      $ctr = $app['controllers_factory'];
+            return $app->redirect('https://twitter.com/TravelAlertsLu');
 
-      $ctr->get( '/', function( Application $app ) {
+        });
 
-        return $app->redirect( 'https://twitter.com/TravelAlertsLu' );
-
-      });
-
-      return $ctr;
-
+        return $ctr;
     }
-
-  }
+}

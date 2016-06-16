@@ -1,58 +1,44 @@
 <?php
 
-  namespace travelAlertsLu;
-  use Silex\Application;
-  class Mobiliteit {
+namespace travelAlertsLu;
 
-    static public function getDepartures( $app, $lat, $long, $stations, $departures )  {
-
-      $closest_stations = json_decode(
-
-        file_get_contents( "https://busproxy.herokuapp.com/around/$lat/$long" ),
-        true
-
-      );
-
-      for( $i = 0; $i < $stations; $i++ ) {
-
-        $station = $closest_stations[ 'features' ][ $i ];
-
-        $id   = $station[ 'properties' ][ 'mobiliteitid' ];
-        $name = $station[ 'properties' ][ 'text' ];
-
-        $station_live = json_decode(
-
-          file_get_contents( "https://mob-262682527644900632.herokuapp.com/api/1/$id/$departures" ),
-          true
-
+class Mobiliteit
+{
+    public static function getDepartures($app, $lat, $long, $stations, $departures)
+    {
+        $closest_stations = json_decode(
+            file_get_contents("https://busproxy.herokuapp.com/around/$lat/$long"),
+            true
         );
 
-        $journeys_live = $station_live[ 'journeys' ];
+        for ($i = 0; $i < $stations; ++$i) {
+            $station = $closest_stations[ 'features' ][ $i ];
 
-        foreach ( $journeys_live as $key => $journey_live ) {
+            $id   = $station[ 'properties' ][ 'mobiliteitid' ];
+            $name = $station[ 'properties' ][ 'text' ];
 
-          if ( preg_match( '/<span>(.*)<(\/)?span>/i', $journey_live[ 'destination' ], $destinationMatches ) ){
+            $station_live = json_decode(
+                file_get_contents("https://mob-262682527644900632.herokuapp.com/api/1/$id/$departures"),
+                true
+            );
 
-            $journey[ 'destination' ] = $destinationMatches[ 1 ];
+            $journeys_live = $station_live[ 'journeys' ];
 
-          } else {
+            foreach ($journeys_live as $key => $journey_live) {
+                if (preg_match('/<span>(.*)<(\/)?span>/i', $journey_live[ 'destination' ], $destinationMatches)) {
+                    $journey[ 'destination' ] = $destinationMatches[ 1 ];
+                } else {
+                    $journey[ 'ddestination' ] = $journey_live[ 'destination' ];
+                }
 
-            $journey[ 'ddestination' ] = $journey_live[ 'destination' ];
+                $journey[ 'departure'      ] = $journey_live[ 'departure' ];
+                $journey[ 'departure_mins' ] = $journey_live[ 'departure' ] - date('U');
+                $journey[ 'delay'          ] = $journey_live[ 'delay' ];
 
-          }
-
-          $journey[ 'departure'      ] = $journey_live[ 'departure' ];
-          $journey[ 'departure_mins' ] = $journey_live[ 'departure' ] - date( 'U' );
-          $journey[ 'delay'          ] = $journey_live[ 'delay' ];
-
-          $result[ $name ][] = $journey;
-
+                $result[ $name ][] = $journey;
+            }
         }
 
-      }
-
-      return $result;
-
+        return $result;
     }
-
-  }
+}

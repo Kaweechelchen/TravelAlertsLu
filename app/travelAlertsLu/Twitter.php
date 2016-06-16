@@ -1,108 +1,97 @@
 <?php
 
-  namespace travelAlertsLu;
-  use Silex\Application;
-  class Twitter {
+namespace travelAlertsLu;
 
-    static public function broadcastTweets( $app, $tweets, $guid ) {
+class Twitter
+{
+    public static function broadcastTweets($app, $tweets, $guid)
+    {
+        foreach ($tweets as $key => $tweet) {
+            if ($key == 0) {
+                $replyTo = self::lastRelatedTweetId($app, $guid);
+            } else {
+                $replyTo = $tweetId;
+            }
 
-      foreach ( $tweets as $key => $tweet) {
+            $tweetId = self::tweet($app, $tweet, $replyTo);
 
-        if ( $key == 0 ) {
-          $replyTo = self::lastRelatedTweetId( $app, $guid );
+            if ($tweetId) {
+                self::saveTweet($app, $tweet, $guid, $tweetId);
+            }
+        }
+    }
+
+    public static function tweet($app, $tweet, $replyTo)
+    {
+        $url           = 'https://api.twitter.com/1.1/statuses/update.json';
+        $requestMethod = 'POST';
+
+        $postfields[ 'status' ] = $tweet;
+        $postfields[ 'lat'    ] = 49.598666;
+        $postfields[ 'long'   ] = 6.1330168;
+        if ($replyTo !== false) {
+            $postfields[ 'in_reply_to_status_id' ] = $replyTo;
+        }
+
+        if ($app[ 'debug' ]) {
+            var_dump($tweet);
+            $twitterResult = '';
         } else {
-          $replyTo = $tweetId;
+            $twitterResult = json_decode(
+          $app[ 'tw' ]->buildOauth($url, $requestMethod)
+                      ->setPostfields($postfields)
+                      ->performRequest(), true);
         }
 
-        $tweetId = self::tweet( $app, $tweet, $replyTo );
-
-        if ( $tweetId ){
-          self::saveTweet( $app, $tweet, $guid, $tweetId );
+        if (array_key_exists('id', $twitterResult)) {
+            return $twitterResult[ 'id' ];
+        } else {
+            return false;
         }
-
-      }
-
     }
 
-    static public function tweet( $app, $tweet, $replyTo ) {
+    public static function saveTweet($app, $tweet, $guid, $tweetId)
+    {
+        $app['db']->insert(
+            'tweets',
+            array(
+                'tweet'   => $tweet,
+                'tweetId' => $tweetId,
+                'guid'    => $guid,
+            )
+        );
 
-      $url = 'https://api.twitter.com/1.1/statuses/update.json';
-      $requestMethod = 'POST';
-
-      $postfields[ 'status' ] = $tweet;
-      $postfields[ 'lat'    ] = 49.598666;
-      $postfields[ 'long'   ] = 6.1330168;
-      if ( $replyTo !== false ) {
-        $postfields[ 'in_reply_to_status_id' ] = $replyTo;
-      }
-
-      if ( $app[ 'debug' ]) {
-        var_dump( $tweet );
-        $twitterResult = '';
-      } else {
-
-        $twitterResult = json_decode(
-          $app[ 'tw' ]->buildOauth( $url, $requestMethod )
-                      ->setPostfields( $postfields )
-                      ->performRequest()
-        , true);
-
-      }
-
-      if ( array_key_exists( 'id', $twitterResult ) ) {
-        return $twitterResult[ 'id' ];
-      } else {
-        return false;
-      }
-
+        return $app['db']->lastInsertId();
     }
 
-    static public function saveTweet( $app, $tweet, $guid, $tweetId ) {
-
-      $app['db']->insert(
-        'tweets',
-        array(
-          'tweet'   =>  $tweet,
-          'tweetId' =>  $tweetId,
-          'guid'    =>  $guid
-        )
-      );
-
-      return $app['db']->lastInsertId();
-
-    }
-
-    static public function lastRelatedTweetId( $app, $guid ) {
-
-      $tweetIdQuery = 'SELECT tweetId
+    public static function lastRelatedTweetId($app, $guid)
+    {
+        $tweetIdQuery = 'SELECT tweetId
         FROM      tweets
         WHERE     guid   = ?
         ORDER BY  id     DESC
         LIMIT     1';
 
-      $tweetId = $app[ 'db' ]->fetchColumn(
-        $tweetIdQuery,
-        array(
-          $guid
-        )
-      );
+        $tweetId = $app[ 'db' ]->fetchColumn(
+            $tweetIdQuery,
+            array(
+                $guid,
+            )
+        );
 
-      return $tweetId;
-
+        return $tweetId;
     }
 
-    static public function getAll( $app ) {
-
-      $getAllIssues = 'SELECT *
+    public static function getAll($app)
+    {
+        $getAllIssues = 'SELECT *
         FROM      tweets
         ORDER BY  id';
 
-      $issues = $app[ 'db' ]->fetchAll(
-        $getAllIssues
-      );
+        $issues = $app[ 'db' ]->fetchAll(
+            $getAllIssues
+        );
 
-      return $issues;
-
+        return $issues;
     }
-
-  }
+}
