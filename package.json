@@ -1,0 +1,29 @@
+{
+  "name": "tfl-travelalerts",
+  "version": "2.0.0",
+  "description": "Travel Alerts for Luxembourg",
+  "main": "src/app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TfLlu/TravelAlertsLu.git"
+  },
+  "keywords": [
+    "travel",
+    "alerts",
+    "twitter",
+    "bot",
+    "luxembourg"
+  ],
+  "author": "Thierry DEGELING",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/TfLlu/TravelAlertsLu/issues"
+  },
+  "homepage": "https://github.com/TfLlu/TravelAlertsLu#readme",
+  "dependencies": {
+    "koa": "^1.2.0"
+  }
+}
