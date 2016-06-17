@@ -1,18 +1,27 @@
 'use strict';
 const messages = require('./controllers/messages');
+const scrape = require('./controllers/scrape');
 const compress = require('koa-compress');
 const logger = require('koa-logger');
 const serve = require('koa-static');
 const route = require('koa-route');
 const koa = require('koa');
 const path = require('path');
+const schedule = require('node-schedule');
 const app = module.exports = koa();
 
 // Logger
 app.use(logger());
 
+schedule.scheduleJob('* * * * *', function(){
+  console.log('The answer to life, the universe, and everything!');
+});
+
+scrape.fetcha();
+
 app.use(route.get('/', messages.home));
 app.use(route.get('/messages', messages.list));
+app.use(route.get('/scrape', scrape.list));
 app.use(route.get('/messages/:id', messages.fetch));
 app.use(route.post('/messages', messages.create));
 app.use(route.get('/async', messages.delay));
